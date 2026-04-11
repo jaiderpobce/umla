@@ -72,6 +72,30 @@ export class AdminModel {
     });
   }
 
+  async getBranding() {
+    const response = await apiRequest('/umla-api/api/admin/branding');
+    return response.branding;
+  }
+
+  async updateBranding(payload) {
+    const formData = new FormData();
+    formData.append('institution_name', payload.institution_name || '');
+    formData.append('subtitle', payload.subtitle || '');
+    formData.append('brand_color', payload.brand_color || '#d96c3f');
+    formData.append('remove_logo', payload.remove_logo ? '1' : '0');
+
+    if (payload.logo) {
+      formData.append('logo', payload.logo);
+    }
+
+    const response = await apiRequest('/umla-api/api/admin/branding', {
+      method: 'POST',
+      body: formData,
+    });
+
+    return response.branding;
+  }
+
   async createModule(payload) {
     return apiRequest('/umla-api/api/admin/modules', {
       method: 'POST',

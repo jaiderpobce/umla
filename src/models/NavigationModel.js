@@ -6,6 +6,12 @@ const metricsByModule = {
     { label: 'Roles registrados', value: '16', trend: '+2' },
     { label: 'Módulos protegidos', value: '28', trend: '100%' },
   ],
+  calificaciones: [
+    { label: 'Formato esperado', value: 'ZIP + CSV', trend: '11 columnas' },
+    { label: 'Destino', value: 'calificaciones_old', trend: 'upsert activo' },
+    { label: 'Clave única', value: 'Matrícula + Asignatura', trend: 'sin duplicados' },
+  ],
+  notas: [],
   usuarios: [
     { label: 'Nuevas cuentas', value: '42', trend: '+12%' },
     { label: 'Pendientes', value: '9', trend: '-3' },

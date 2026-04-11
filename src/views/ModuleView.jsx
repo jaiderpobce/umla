@@ -1,10 +1,13 @@
 import { AdminCrudView } from './AdminCrudView.jsx';
+import { CalificacionesImportView } from './CalificacionesImportView.jsx';
+import { InstitutionSettingsView } from './InstitutionSettingsView.jsx';
+import { NotasGridView } from './NotasGridView.jsx';
 
 function PermissionChip({ permission }) {
   return <span className="permission-chip">{permission}</span>;
 }
 
-export function ModuleView({ state, metrics, dataController }) {
+export function ModuleView({ state, metrics, dataController, branding, onBrandingChange }) {
   if (state.loading) {
     return <section className="empty-state">Cargando módulo...</section>;
   }
@@ -19,6 +22,9 @@ export function ModuleView({ state, metrics, dataController }) {
 
   const { module, view } = state.payload;
   const isAdminCrudModule = ['usuarios', 'roles', 'modulos'].includes(module.slug);
+  const isCalificacionesImport = view.component === 'GradesImport';
+  const isNotasGrid = view.component === 'NotesGrid';
+  const isInstitutionSettings = view.component === 'InstitutionSettings';
 
   return (
     <section className="content-panel">
@@ -34,18 +40,31 @@ export function ModuleView({ state, metrics, dataController }) {
         </div>
       </div>
 
-      <div className="metrics-grid">
-        {metrics.map((metric) => (
-          <article key={metric.label} className="metric-card">
-            <p>{metric.label}</p>
-            <strong>{metric.value}</strong>
-            <span>{metric.trend}</span>
-          </article>
-        ))}
-      </div>
+      {metrics.length > 0 ? (
+        <div className="metrics-grid">
+          {metrics.map((metric) => (
+            <article key={metric.label} className="metric-card">
+              <p>{metric.label}</p>
+              <strong>{metric.value}</strong>
+              <span>{metric.trend}</span>
+            </article>
+          ))}
+        </div>
+      ) : null}
 
       {isAdminCrudModule ? (
         <AdminCrudView moduleSlug={module.slug} dataController={dataController} permissions={view.permissions} />
+      ) : isCalificacionesImport ? (
+        <CalificacionesImportView dataController={dataController} permissions={view.permissions} />
+      ) : isNotasGrid ? (
+        <NotasGridView dataController={dataController} permissions={view.permissions} />
+      ) : isInstitutionSettings ? (
+        <InstitutionSettingsView
+          dataController={dataController}
+          branding={branding}
+          onBrandingChange={onBrandingChange}
+          permissions={view.permissions}
+        />
       ) : (
         <div className="section-grid">
           <article className="info-card">

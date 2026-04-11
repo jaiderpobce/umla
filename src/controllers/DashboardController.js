@@ -1,10 +1,20 @@
 import { NavigationModel } from '../models/NavigationModel.js';
 import { AdminModel } from '../models/AdminModel.js';
+import { CalificacionesImportModel } from '../models/CalificacionesImportModel.js';
+import { NotasModel } from '../models/NotasModel.js';
+import { BrandingModel } from '../models/BrandingModel.js';
 
 export class DashboardController {
   constructor() {
     this.model = new NavigationModel();
     this.adminModel = new AdminModel();
+    this.calificacionesImportModel = new CalificacionesImportModel();
+    this.notasModel = new NotasModel();
+    this.brandingModel = new BrandingModel();
+  }
+
+  async getBranding() {
+    return this.brandingModel.getBranding();
   }
 
   async getNavigation() {
@@ -21,6 +31,14 @@ export class DashboardController {
 
   async getAdminBootstrap() {
     return this.adminModel.getBootstrap();
+  }
+
+  async getAdminBranding() {
+    return this.adminModel.getBranding();
+  }
+
+  async updateAdminBranding(payload) {
+    return this.adminModel.updateBranding(payload);
   }
 
   async createUser(payload) {
@@ -85,5 +103,29 @@ export class DashboardController {
 
   async deleteModuleView(viewId) {
     return this.adminModel.deleteModuleView(viewId);
+  }
+
+  async getCalificacionesImportSummary() {
+    return this.calificacionesImportModel.getSummary();
+  }
+
+  async previewCalificacionesZip(file) {
+    return this.calificacionesImportModel.previewZip(file);
+  }
+
+  async confirmCalificacionesImport(token) {
+    return this.calificacionesImportModel.confirmImport(token);
+  }
+
+  async getNotas(params) {
+    return this.notasModel.getNotas(params);
+  }
+
+  async updateNota(notaId, payload) {
+    return this.notasModel.updateNota(notaId, payload);
+  }
+
+  async deleteNota(notaId) {
+    return this.notasModel.deleteNota(notaId);
   }
 }

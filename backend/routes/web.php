@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\Api\AdminBootstrapController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BrandingController;
+use App\Http\Controllers\Api\BrandingAdminController;
+use App\Http\Controllers\Api\CalificacionesImportController;
+use App\Http\Controllers\Api\NotasController;
 use App\Http\Controllers\Api\NavigationController;
 use App\Http\Controllers\Api\PermissionAdminController;
 use App\Http\Controllers\Api\RoleAdminController;
@@ -27,7 +31,11 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/branding-assets/{fileName}', [BrandingController::class, 'asset'])
+    ->where('fileName', '[A-Za-z0-9\-_.]+');
+
 Route::prefix('api')->group(function () {
+    Route::get('/branding', [BrandingController::class, 'show']);
     Route::post('/auth/login', [AuthController::class, 'login']);
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/me', [AuthController::class, 'me']);
@@ -35,6 +43,13 @@ Route::prefix('api')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/navigation', [NavigationController::class, 'navigation']);
         Route::get('/modules/{moduleSlug}/{viewSlug}', [NavigationController::class, 'show']);
+        Route::get('/calificaciones/importacion/summary', [CalificacionesImportController::class, 'summary']);
+        Route::post('/calificaciones/importacion/preview', [CalificacionesImportController::class, 'preview']);
+        Route::get('/calificaciones/importacion/preview/{token}/invalid-csv', [CalificacionesImportController::class, 'downloadInvalidCsv']);
+        Route::post('/calificaciones/importacion/upload', [CalificacionesImportController::class, 'store']);
+        Route::get('/notas', [NotasController::class, 'index']);
+        Route::put('/notas/{notaId}', [NotasController::class, 'update']);
+        Route::delete('/notas/{notaId}', [NotasController::class, 'destroy']);
 
         Route::prefix('/admin')->group(function () {
             Route::get('/bootstrap', [AdminBootstrapController::class, 'index']);
@@ -62,6 +77,9 @@ Route::prefix('api')->group(function () {
             Route::post('/permissions', [PermissionAdminController::class, 'store']);
             Route::put('/permissions/{permission}', [PermissionAdminController::class, 'update']);
             Route::delete('/permissions/{permission}', [PermissionAdminController::class, 'destroy']);
+
+            Route::get('/branding', [BrandingAdminController::class, 'show']);
+            Route::post('/branding', [BrandingAdminController::class, 'update']);
         });
     });
 });

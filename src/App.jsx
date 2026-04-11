@@ -9,6 +9,7 @@ import { LoginView } from './views/LoginView.jsx';
 
 const authController = new AuthController();
 const dashboardController = new DashboardController();
+const routerBasename = import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '');
 
 export const AppContext = createContext(null);
 
@@ -48,7 +49,7 @@ function DefaultRoute() {
 function AppLayout() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, navigation, onLogout } = useAppContext();
+  const { user, navigation, branding, onLogout } = useAppContext();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const activeModuleSlug = location.pathname.split('/')[1] || null;
@@ -61,7 +62,7 @@ function AppLayout() {
   return (
     <div className="app-shell">
       <SidebarView
-        brand="UMLA"
+        branding={branding}
         modules={navigation}
         activeModuleSlug={activeModuleSlug}
         isOpen={mobileSidebarOpen}
@@ -82,6 +83,7 @@ function AppLayout() {
 
 function ModuleRoute() {
   const { moduleSlug, viewSlug } = useParams();
+  const { branding, onBrandingChange } = useAppContext();
   const [state, setState] = useState({ loading: true, error: '', payload: null });
 
   useEffect(() => {
@@ -109,20 +111,20 @@ function ModuleRoute() {
     };
   }, [moduleSlug, viewSlug]);
 
-  return <ModuleView state={state} metrics={dashboardController.getMetricsForModule(moduleSlug)} dataController={dashboardController} />;
+  return <ModuleView state={state} metrics={dashboardController.getMetricsForModule(moduleSlug)} dataController={dashboardController} branding={branding} onBrandingChange={onBrandingChange} />;
 }
 
 function LoginRoute() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { onLogin } = useAppContext();
+  const { branding, onLogin } = useAppContext();
 
   async function handleLogin(credentials) {
     await onLogin(credentials);
     navigate(location.state?.from?.pathname || '/', { replace: true });
   }
 
-  return <LoginView onLogin={handleLogin} />;
+  return <LoginView branding={branding} onLogin={handleLogin} />;
 }
 
 function useAppContext() {
@@ -139,12 +141,24 @@ export default function App() {
   const [booting, setBooting] = useState(true);
   const [user, setUser] = useState(null);
   const [navigation, setNavigation] = useState([]);
+  const [branding, setBranding] = useState({
+    institution_name: 'UMLA',
+    subtitle: 'Plataforma académica',
+    brand_color: '#d96c3f',
+    logo_path: '',
+  });
 
   useEffect(() => {
     let isMounted = true;
 
     async function restoreSession() {
       try {
+        const nextBranding = await dashboardController.getBranding();
+
+        if (isMounted) {
+          setBranding(nextBranding);
+        }
+
         const currentUser = await authController.getCurrentUser();
         const nextNavigation = await dashboardController.getNavigation();
 
@@ -156,6 +170,21 @@ export default function App() {
         if (isMounted) {
           setUser(null);
           setNavigation([]);
+          try {
+            const nextBranding = await dashboardController.getBranding();
+            if (isMounted) {
+              setBranding(nextBranding);
+            }
+          } catch (brandingError) {
+            if (isMounted) {
+              setBranding({
+                institution_name: 'UMLA',
+                subtitle: 'Plataforma académica',
+                brand_color: '#d96c3f',
+                logo_path: '',
+              });
+            }
+          }
         }
       } finally {
         if (isMounted) {
@@ -189,11 +218,13 @@ export default function App() {
       value={{
         user,
         navigation,
+        branding,
+        onBrandingChange: setBranding,
         onLogin: handleLogin,
         onLogout: handleLogout,
       }}
     >
-      <BrowserRouter>
+      <BrowserRouter basename={routerBasename}>
         <Routes>
           <Route element={<PublicRoute isAuthenticated={Boolean(user)} />}>
             <Route path="/login" element={<LoginRoute />} />

@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { BrandLogo } from './BrandLogo.jsx';
 
-export function LoginView({ onLogin }) {
+export function LoginView({ branding, onLogin }) {
   const [form, setForm] = useState({
     email: 'admin@umla.local',
     password: 'password',
@@ -25,9 +26,14 @@ export function LoginView({ onLogin }) {
   return (
     <section className="login-shell">
       <div className="login-card">
-        <p className="eyebrow">Laravel + React + MariaDB</p>
-        <h1>Acceso UMLA</h1>
-        <p>Inicia sesión para cargar los módulos visibles según el rol asignado en la base de datos.</p>
+        <BrandLogo
+          className="login-brand"
+          title={branding?.institution_name || 'UMLA'}
+          subtitle={branding?.subtitle || 'Plataforma académica'}
+          brandColor={branding?.brand_color || '#d96c3f'}
+          logoPath={branding?.logo_path || ''}
+          useDefaultCandidates={false}
+        />
 
         <form className="login-form" onSubmit={handleSubmit}>
           <label>
