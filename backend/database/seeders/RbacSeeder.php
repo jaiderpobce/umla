@@ -120,6 +120,7 @@ class RbacSeeder extends Seeder
                 'description' => 'Administración RBAC',
                 'views' => [
                     ['name' => 'Matriz RBAC', 'slug' => 'matriz', 'route' => '/roles/matriz', 'component' => 'RolesMatrix', 'description' => 'Asignación de permisos por rol'],
+                    ['name' => 'Permisos', 'slug' => 'permisos', 'route' => '/roles/permisos', 'component' => 'PermissionsList', 'description' => 'Administración de permisos reutilizables'],
                 ],
             ],
             [
@@ -215,6 +216,7 @@ class RbacSeeder extends Seeder
                     'notas.grid' => ['view', 'edit', 'delete'],
                     'usuarios.listado' => ['view', 'create', 'edit', 'delete'],
                     'roles.matriz' => ['view', 'create', 'edit', 'assign'],
+                    'roles.permisos' => ['view', 'create', 'edit', 'delete'],
                     'modulos.catalogo' => ['view', 'create', 'edit'],
                     'institucion.branding' => ['view', 'edit'],
                     'auditoria.eventos' => ['view', 'export'],

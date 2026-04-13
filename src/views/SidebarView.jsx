@@ -20,6 +20,14 @@ function ModuleIcon({ slug, className }) {
   return <Icon className={className} strokeWidth={2} />;
 }
 
+function moduleLabel(module) {
+  if (module.slug === 'calificaciones') {
+    return 'Cargar archivo ZIP';
+  }
+
+  return module.name;
+}
+
 export function SidebarView({ branding, modules, activeModuleSlug, isOpen, onClose, onModuleSelect }) {
   const dashboardModule = modules.find((module) => module.slug === 'dashboard') || null;
   const primaryModules = modules.filter((module) => module.slug !== 'dashboard' && !configurationModuleSlugs.includes(module.slug));
@@ -67,7 +75,7 @@ export function SidebarView({ branding, modules, activeModuleSlug, isOpen, onClo
               <span className="sidebar-icon">
                 <ModuleIcon slug={dashboardModule.slug} className="sidebar-icon-svg" />
               </span>
-              <span>{dashboardModule.name}</span>
+              <span>{moduleLabel(dashboardModule)}</span>
             </button>
           ) : null}
 
@@ -80,7 +88,7 @@ export function SidebarView({ branding, modules, activeModuleSlug, isOpen, onClo
               <span className="sidebar-icon">
                 <ModuleIcon slug={module.slug} className="sidebar-icon-svg" />
               </span>
-              <span>{module.name}</span>
+              <span>{moduleLabel(module)}</span>
             </button>
           ))}
 
@@ -107,7 +115,7 @@ export function SidebarView({ branding, modules, activeModuleSlug, isOpen, onClo
                       <span className="sidebar-subicon">
                         <ModuleIcon slug={module.slug} className="sidebar-subicon-svg" />
                       </span>
-                      <span>{module.name}</span>
+                      <span>{moduleLabel(module)}</span>
                     </button>
                   ))}
                 </div>

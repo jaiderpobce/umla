@@ -14,6 +14,10 @@
   --accent-forest: #3b6b45;
   --accent-violet: #5f548c;
   --shadow: 0 20px 60px rgba(38, 26, 18, 0.14);
+  --admin-grid-row-odd-bg: rgba(255, 250, 244, 0.18);
+  --admin-grid-row-even-bg: rgba(232, 243, 242, 0.36);
+  --admin-grid-row-hover-bg: rgba(22, 122, 127, 0.08);
+  --admin-grid-row-selected-bg: rgba(217, 108, 63, 0.16);
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
@@ -411,6 +415,12 @@ button {
   margin-bottom: 24px;
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+}
+
 .topbar h1 {
   margin: 6px 0 0;
   font-size: clamp(1.75rem, 3vw, 2.8rem);
@@ -560,9 +570,9 @@ button {
 }
 
 .login-brand.is-horizontal .brand-logo-image {
-  width: min(100%, 168px);
-  height: 84px;
-  padding: 8px 12px;
+  width: min(100%, 230px);
+  height: 96px;
+  padding: 8px 14px;
 }
 
 .login-brand .brand-logo-copy {
@@ -1325,6 +1335,267 @@ button {
   background: rgba(217, 108, 63, 0.12);
 }
 
+.admin-data-grid-card {
+  gap: 18px;
+}
+
+.admin-data-grid-card .data-table tbody tr {
+  background: var(--admin-grid-row-odd-bg);
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.admin-data-grid-card .data-table tbody tr:nth-child(even) {
+  background: var(--admin-grid-row-even-bg);
+}
+
+.admin-data-grid-card .data-table tbody tr:hover {
+  background: var(--admin-grid-row-hover-bg);
+}
+
+.admin-data-grid-card .data-table tbody tr.row-selected {
+  background: var(--admin-grid-row-selected-bg);
+}
+
+.admin-data-grid-toolbar,
+.users-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 250, 244, 0.92), rgba(232, 243, 242, 0.74));
+}
+
+.admin-data-grid-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 420px;
+  flex-wrap: wrap;
+}
+
+.admin-data-grid-search-shell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  min-width: min(100%, 320px);
+  flex: 1 1 280px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.admin-data-grid-search-icon {
+  color: var(--muted);
+}
+
+.admin-data-grid-search {
+  flex: 1;
+  min-height: 42px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+}
+
+.admin-data-grid-filter-field {
+  display: grid;
+  gap: 6px;
+  min-width: 180px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.admin-data-grid-filter-field select {
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--text);
+  outline: 0;
+}
+
+.admin-data-grid-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex: 1 1 320px;
+  flex-wrap: wrap;
+}
+
+.admin-data-grid-empty {
+  padding: 22px 16px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.users-selection-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(17, 26, 35, 0.08);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.users-toolbar-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.users-toolbar-actions .inline-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.users-table-shell {
+  max-height: min(62vh, 760px);
+}
+
+.users-table {
+  min-width: 760px;
+}
+
+.users-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: rgba(250, 244, 236, 0.96);
+  backdrop-filter: blur(8px);
+  color: #5a5247;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.users-name-cell {
+  display: grid;
+  gap: 4px;
+}
+
+.users-name-cell strong {
+  font-size: 0.92rem;
+}
+
+.users-name-cell span,
+.users-empty-role,
+.roles-modal-copy {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.users-role-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.users-role-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(22, 122, 127, 0.12);
+  color: #14565a;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.grid-code-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(22, 122, 127, 0.12);
+  color: #14565a;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.grid-code-pill.alt {
+  background: rgba(95, 84, 140, 0.12);
+  color: #4f4675;
+}
+
+.roles-access-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.roles-modal-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: min(100%, 760px);
+  padding: 24px;
+}
+
+.access-modal-card {
+  width: min(100%, 1080px);
+  max-height: calc(100vh - 48px);
+}
+
+.access-grid-shell {
+  max-height: min(66vh, 820px);
+}
+
+.access-grid-table {
+  min-width: 980px;
+}
+
+.access-module-cell {
+  display: grid;
+  gap: 10px;
+}
+
+.access-module-toggle {
+  width: fit-content;
+}
+
+.access-grid-matrix-list {
+  gap: 14px;
+}
+
+.access-grid-view-row {
+  padding-top: 0;
+  border-top: 1px solid rgba(46, 37, 27, 0.08);
+}
+
+.access-grid-view-row:first-child {
+  border-top: 0;
+}
+
+.roles-modal-form {
+  gap: 16px;
+}
+
+.roles-modal-copy {
+  margin: 0;
+}
+
+.roles-modal-grid {
+  gap: 12px;
+}
+
 .access-matrix,
 .matrix-list {
   display: flex;
@@ -1587,6 +1858,35 @@ button {
 }
 
 @media (max-width: 640px) {
+  .admin-data-grid-toolbar,
+  .admin-data-grid-filters,
+  .admin-data-grid-actions,
+  .users-toolbar,
+  .users-toolbar-actions {
+    width: 100%;
+  }
+
+  .admin-data-grid-search-shell,
+  .admin-data-grid-filter-field {
+    min-width: 100%;
+  }
+
+  .admin-data-grid-actions {
+    justify-content: stretch;
+  }
+
+  .admin-data-grid-actions > * {
+    width: 100%;
+  }
+
+  .roles-access-toolbar {
+    width: 100%;
+  }
+
+  .users-toolbar-actions .inline-button {
+    flex: 1 1 100%;
+  }
+
   .notas-search-group {
     width: 100%;
     min-width: 0;
@@ -1606,6 +1906,7 @@ button {
     border-radius: 22px;
   }
 
+  .roles-modal-card,
   .notas-modal-card {
     padding: 18px;
   }

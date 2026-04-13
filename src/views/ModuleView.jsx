@@ -25,20 +25,26 @@ export function ModuleView({ state, metrics, dataController, branding, onBrandin
   const isCalificacionesImport = view.component === 'GradesImport';
   const isNotasGrid = view.component === 'NotesGrid';
   const isInstitutionSettings = view.component === 'InstitutionSettings';
+  const hideModuleHeader = ['dashboard', 'usuarios', 'roles', 'modulos', 'auditoria', 'institucion'].includes(module.slug)
+    || isNotasGrid
+    || isCalificacionesImport
+    || isInstitutionSettings;
 
   return (
     <section className="content-panel">
-      <div className="hero-card">
-        <div>
-          <p className="eyebrow">Módulo actual</p>
-          <h2>{module.name}</h2>
-          <p className="hero-copy">{module.description}</p>
-          <p className="view-caption">Vista: {view.name}</p>
+      {!hideModuleHeader ? (
+        <div className="hero-card">
+          <div>
+            <p className="eyebrow">Módulo actual</p>
+            <h2>{module.name}</h2>
+            <p className="hero-copy">{module.description}</p>
+            <p className="view-caption">Vista: {view.name}</p>
+          </div>
+          <div className="permission-list">
+            {view.permissions.length > 0 ? view.permissions.map((permission) => <PermissionChip key={permission} permission={permission} />) : <PermissionChip permission="sin permisos" />}
+          </div>
         </div>
-        <div className="permission-list">
-          {view.permissions.length > 0 ? view.permissions.map((permission) => <PermissionChip key={permission} permission={permission} />) : <PermissionChip permission="sin permisos" />}
-        </div>
-      </div>
+      ) : null}
 
       {metrics.length > 0 ? (
         <div className="metrics-grid">
@@ -53,7 +59,7 @@ export function ModuleView({ state, metrics, dataController, branding, onBrandin
       ) : null}
 
       {isAdminCrudModule ? (
-        <AdminCrudView moduleSlug={module.slug} dataController={dataController} permissions={view.permissions} />
+        <AdminCrudView moduleSlug={module.slug} adminViewSlug={view.slug} dataController={dataController} permissions={view.permissions} />
       ) : isCalificacionesImport ? (
         <CalificacionesImportView dataController={dataController} permissions={view.permissions} />
       ) : isNotasGrid ? (

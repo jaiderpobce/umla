@@ -1,14 +1,12 @@
 export function TopbarView({ user, onLogout, onMenuToggle }) {
   return (
     <header className="topbar">
-      <div>
+      <div className="topbar-actions">
         <button className="menu-toggle" onClick={onMenuToggle} aria-label="Abrir menú">
           <span></span>
           <span></span>
           <span></span>
         </button>
-        <p className="eyebrow">Frontend MVC con RBAC</p>
-        <h1>Dashboard de administración UMLA</h1>
       </div>
       <div className="role-switcher">
         <div>
