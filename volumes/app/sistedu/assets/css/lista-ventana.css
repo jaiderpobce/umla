@@ -1,0 +1,283 @@
+/* Estilos para la tabla */
+table {
+    width: 100%;
+   /* border-collapse: collapse;*/
+    overflow-y: auto;
+    max-height: 200px; /* Altura máxima para activar el scroll */
+   
+  }
+  .fondointro {
+
+    background-image: url(../../assets/img/portada1.jpg);
+    background-size: contain; /* Para que la imagen se ajuste sin distorsión */
+    background-repeat: no-repeat; /* Para que la imagen no se repita */
+    background-position: center; /* Para centrar la imagen */
+    height: 500px; /* Altura deseada para la div */
+    width: 100%; /* Ancho completo de la div */
+    border-radius: 15px; /* Para bordes redondos */
+  }
+
+  
+  
+  th, td {
+    border: 1px solid black;
+    padding: 4px !important; /* Ajusta el padding para cambiar el tamaño de las celdas */
+    font-size: 8px !important; /* Cambia el tamaño de la letra en las celdas */
+    cursor: pointer;
+  }
+  
+  /* Estilos para filas pares */
+  tr:nth-child(even) {
+    background-color: #ffffff; /* Fondo blanco para filas pares */
+  }
+  
+  /* Estilos para filas impares */
+  tr:nth-child(odd) {
+    background-color: #dfb169; /* Fondo celeste para filas impares */
+  }
+
+  .paginate_button.current {
+    background: #deb069 !important;
+    border: 0;
+    border-radius: 0;
+    color: #fff !important;
+}
+  
+  /* Estilos para la ventana emergente */
+  dialog {
+    width: 70vw; /* Ancho deseado de la ventana */
+    height: 30vw; /* Altura deseada de la ventana */
+  }
+  dialogfor {
+    width: 70vw; /* Ancho deseado de la ventana */
+    height: 30vw; /* Altura deseada de la ventana */
+  }
+  /* Efecto visual al pasar el cursor sobre una fila */
+tr:hover {
+    background-color: #55bde3; /* Cambia el color de fondo al pasar el cursor */
+  }
+  .modal-title {
+    text-align: left;
+    font-size: 1em;
+    margin-top: -0.5em;
+  }
+
+  .table-container {
+    max-height: 200px;
+   overflow-y: scroll;
+  }
+  .table-container2 {
+    max-height: 300px;
+   overflow-y: scroll;
+  }
+  .seleccionada {
+    background-color: #ff3333;
+  }
+  .justificado {
+    background-color: #ff6c37 !important;
+  }
+  .mensaje {
+    position: fixed;
+    top: 15;
+    right: 60px; /* Ajuste para que aparezca en el lado derecho */
+    width: auto; /* Ancho automático según el contenido */
+    background-color:#ff3333;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    display: none;
+    border-radius: 10px;
+  }
+  .salir {
+    background-image: url('../img/salir.png');
+    
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 4vw;
+    height: 4vw;
+    border: none;
+    cursor: pointer;
+  }
+  .color-box {
+    width: 20px;
+    height: 20px;
+    background-color: green;
+    margin-right: 10px;
+  }
+
+  .ocultarformulario{
+    display: none ;
+}
+.dataTables_wrapper .dataTables_filter input {
+
+   border: 0.2rem solid #eee !important;
+    border-block-color: revert-layer;
+    border-color: #dfb169 !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgb(216 223 105 / 56%);
+}
+
+.table.dataTable tbody tr {
+  background-color: #b4de1457;
+}
+
+.avatar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -0.5625rem;
+  bottom: auto;
+  left: auto;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  background: #811628 !important;
+  
+}
+.side-menu > li > a {
+ 
+  color: #811628 !important;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px !important;
+  cursor: pointer;
+
+}
+/*.formulario {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+}*/
+/*label {
+  display: inline-block;
+  width: 100px;
+  text-align: right;
+  margin-right: 10px;
+  text-align: center;
+}*/
+
+  .checkmark {
+    position: absolute;
+    top: 5.2vw;
+   
+    left: 23vw;
+    height: 20px;
+    width: 20px;
+    background-color: rgb(237, 169, 137);
+  }
+  .checkmark2 {
+    position: absolute;
+    top: 5.2vw;
+   
+    left: 25vw;
+    
+    
+  }
+  .form-group {
+    margin-bottom: 0rem !important; /* Establece el margen inferior a 0rem sin importar otras reglas */
+}
+.ocultar {
+  display: none;
+}
+@media (max-width: 576px) {
+  .table-responsive {
+      width: 100%;
+      font-size: 80%;
+  }
+  .table.dataTable td {
+    box-sizing: content-box;
+    font-size: 1.9vw;
+
+
+}
+.container {
+  width: 100%;
+   padding-right: 2px !important; 
+   padding-left: 2px !important; 
+  margin-right: auto;
+  margin-left: auto;
+}
+dialog {
+  width: 70vw;
+  height: 120vw !important;
+  top: -20vw;
+}
+.fa, .fab, .fal, .far, .fas {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 0.5;
+  font-size: 8px;
+}
+.modal {
+  position: fixed;
+  top: 80px !important;
+  right: 0;
+  bottom: 0;
+  left: 20px !important;
+  z-index: 1050;
+  display: none;
+  overflow: hidden;
+  outline: 0;
+}
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 2.5rem !important;
+  pointer-events: none;
+}
+
+.table.dataTable thead, table.dataTable tfoot {
+  background: white;
+  position: sticky !important;
+  top: 0;
+  z-index: 0;
+}
+.table-container {
+  position: relative;
+  z-index: 0;
+}
+.element.style {
+  width: 80%;
+  height: 60vh;
+  /*top: -40vw;*/
+  overflow: hidden;
+}
+th, td {
+  border: 1px solid black;
+  padding: 0.5px;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+}
+@media (min-width: 576px) {
+  .table-responsive {
+      width: 60%;
+      font-size: 10px;
+  }
+  element.style {
+    width: 80%;
+    height: 60%;
+   /* top: -40vw;*/
+    overflow: hidden;
+}
+
+.container {
+  width: 100%;
+  /* padding-right: 15px; */
+  /* padding-left: 15px; */
+  margin-right: auto;
+  margin-left: auto;
+}
+
+}

@@ -1,0 +1,44 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php74-apache/Dockerfile
+    container_name: sistedu_app
+    ports:
+      - "${APP_PORT:-80}:80"
+    env_file:
+      - .env.local
+    environment:
+      APP_ENV: ${APP_ENV:-docker}
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-3306}
+      DB_NAME: ${DB_NAME:-ujosemarti_sistem}
+      DB_USER: ${DB_USER:-sistedu_user}
+      DB_PASSWORD: ${DB_PASSWORD:-sistedu_pass}
+      PHPMYADMIN_BLOWFISH_SECRET: ${PHPMYADMIN_BLOWFISH_SECRET:-local-docker-phpmyadmin-secret}
+      BASE_PATH: ${BASE_PATH:-http://localhost/}
+      BASE_PATH_CONTROL: ${BASE_PATH_CONTROL:-http://localhost/}
+      BASE_PATH_REL: ${BASE_PATH_REL:-/}
+      PAGE_TITLE: ${PAGE_TITLE:-Sistedu}
+    volumes:
+      - ./volumes/app/sistedu:/var/www/html
+      - ./volumes/app/umla/backend:/var/www/umla-backend
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.11
+    container_name: sistedu_db
+    restart: unless-stopped
+    ports:
+      - "${DB_EXTERNAL_PORT:-3307}:3306"
+    env_file:
+      - .env.local
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-ujosemarti_sistem}
+      MARIADB_USER: ${DB_USER:-sistedu_user}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-sistedu_pass}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+    volumes:
+      - ./volumes/db:/var/lib/mysql
+      - ./backups/ujosemarti_sistem.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
