@@ -832,11 +832,13 @@ button {
 .notas-summary-pill {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
-  padding: 0 14px;
-  border-radius: 999px;
-  background: rgba(22, 122, 127, 0.1);
-  color: #16595d;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  font-size: 0.85rem;
   font-weight: 600;
 }
 
@@ -861,12 +863,11 @@ button {
   gap: 10px;
   flex: 1;
   min-width: 260px;
-  min-height: 48px;
-  padding: 0 14px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
 }
 
 .notas-search-icon {
@@ -893,13 +894,13 @@ button {
 }
 
 .notas-page-size-select {
-  min-height: 48px;
-  padding: 0 14px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.82);
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
   color: var(--text);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   outline: 0;
 }
 
@@ -935,17 +936,17 @@ button {
 
 .pagination-page,
 .pagination-ellipsis {
-  min-width: 40px;
-  min-height: 40px;
-  border-radius: 12px;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 6px;
 }
 
 .pagination-page {
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.8);
-  color: var(--text);
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #374151;
+  font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
   transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
 }
@@ -1024,12 +1025,19 @@ button {
 .notas-table thead th {
   position: sticky;
   top: 0;
-  background: rgba(250, 244, 236, 0.96);
-  backdrop-filter: blur(8px);
-  color: #5a5247;
-  font-size: 0.72rem;
+  background: #2c3e50; /* Enterprise Dark Blue */
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
+  padding: 14px 16px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 10;
+}
+
+.notas-table thead th:last-child {
+  border-right: 0;
 }
 
 .notas-table-shell {
@@ -1040,19 +1048,32 @@ button {
 
 .notas-table {
   min-width: 1120px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .notas-table td {
-  font-size: 0.84rem;
-  line-height: 1.35;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eeeeee;
+  border-right: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.notas-table td:last-child {
+  border-right: 0;
 }
 
 .notas-table tbody tr:nth-child(even) {
-  background: rgba(255, 255, 255, 0.32);
+  background: #f8f9fa;
 }
 
 .notas-table tbody tr:hover {
-  background: rgba(22, 122, 127, 0.08);
+  background: #e3f2fd !important; /* Professional Blue Highlight */
+  cursor: default;
 }
 
 .notas-cell-stack {
@@ -1094,14 +1115,29 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 58px;
-  min-height: 32px;
-  padding: 0 12px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(217, 108, 63, 0.16), rgba(22, 122, 127, 0.14));
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 700;
+  min-width: 50px;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.grade-badge.is-high {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #065f46;
+}
+
+.grade-badge.is-low {
+  background: #fef2f2;
+  border-color: #ef4444;
+  color: #991b1b;
 }
 
 .icon-button {
@@ -1190,18 +1226,51 @@ button {
 .data-table {
   width: 100%;
   border-collapse: collapse;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-.data-table th,
-.data-table td {
-  padding: 12px 14px;
+.data-table thead th {
+  background: #2c3e50;
+  color: #ffffff;
+  padding: 12px 16px;
   text-align: left;
-  border-bottom: 1px solid var(--line);
-  vertical-align: top;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.data-table tbody tr:last-child td {
-  border-bottom: 0;
+.data-table thead th:last-child {
+  border-right: 0;
+}
+
+.data-table td {
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eeeeee;
+  border-right: 1px solid #f0f0f0;
+  vertical-align: middle;
+  font-size: 0.88rem;
+}
+
+.data-table td:last-child {
+  border-right: 0;
+}
+
+.data-table tbody tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.data-table tbody tr:hover {
+  background: #e3f2fd !important;
+}
+
+.data-table tbody tr.row-selected {
+  background: #bbdefb !important;
+  border-left: 4px solid #2196f3;
 }
 
 .row-actions {
@@ -1340,21 +1409,11 @@ button {
 }
 
 .admin-data-grid-card .data-table tbody tr {
-  background: var(--admin-grid-row-odd-bg);
   cursor: pointer;
-  transition: background-color 180ms ease;
-}
-
-.admin-data-grid-card .data-table tbody tr:nth-child(even) {
-  background: var(--admin-grid-row-even-bg);
-}
-
-.admin-data-grid-card .data-table tbody tr:hover {
-  background: var(--admin-grid-row-hover-bg);
 }
 
 .admin-data-grid-card .data-table tbody tr.row-selected {
-  background: var(--admin-grid-row-selected-bg);
+  background: #bbdefb !important;
 }
 
 .admin-data-grid-toolbar,
@@ -1382,13 +1441,13 @@ button {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 46px;
+  min-height: 40px;
   min-width: min(100%, 320px);
   flex: 1 1 280px;
-  padding: 0 14px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.88);
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
 }
 
 .admin-data-grid-search-icon {
@@ -1414,11 +1473,11 @@ button {
 }
 
 .admin-data-grid-filter-field select {
-  min-height: 46px;
-  padding: 0 14px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.88);
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
   color: var(--text);
   outline: 0;
 }

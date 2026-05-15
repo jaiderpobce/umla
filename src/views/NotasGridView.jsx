@@ -238,7 +238,9 @@ export function NotasGridView({ dataController, permissions }) {
                         </div>
                       </td>
                       <td>
-                        <span className="grade-badge">{row.CalificacionFinal}</span>
+                        <span className={`grade-badge ${Number(row.CalificacionFinal) >= 90 ? 'is-high' : Number(row.CalificacionFinal) < 70 ? 'is-low' : ''}`}>
+                          {row.CalificacionFinal}
+                        </span>
                       </td>
                       <td>{row.Catedratico}</td>
                       {(canEdit || canDelete) ? (
