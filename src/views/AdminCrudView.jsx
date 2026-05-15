@@ -149,7 +149,7 @@ export function AdminCrudView({ moduleSlug, adminViewSlug, dataController, permi
     <section className="admin-panel">
       <MessageBar message={message} error={error} />
 
-      {moduleSlug === 'usuarios' ? (
+      {(moduleSlug === 'usuarios' || (moduleSlug === 'configuracion' && adminViewSlug === 'usuario')) ? (
         <UsersAdminSection
           users={boot.users}
           roles={boot.roles}
@@ -158,7 +158,7 @@ export function AdminCrudView({ moduleSlug, adminViewSlug, dataController, permi
         />
       ) : null}
 
-      {moduleSlug === 'roles' ? (
+      {(moduleSlug === 'roles' || (moduleSlug === 'configuracion' && adminViewSlug === 'rol')) ? (
         adminViewSlug === 'permisos' ? (
           <PermissionAdminSection
             permissionCatalog={boot.permissions}
@@ -178,7 +178,7 @@ export function AdminCrudView({ moduleSlug, adminViewSlug, dataController, permi
         )
       ) : null}
 
-      {moduleSlug === 'modulos' ? (
+      {(moduleSlug === 'modulos' || (moduleSlug === 'configuracion' && adminViewSlug === 'modulos')) ? (
         <div className="admin-grid two-columns">
           <article className="info-card admin-card">
             <SectionHeader title="Módulos" copy="CRUD del catálogo de módulos visibles en navegación." />

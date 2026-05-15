@@ -21,7 +21,7 @@ class NotasController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $payload = $this->rbacService->moduleViewFor($request->user(), 'notas', 'grid');
+        $payload = $this->rbacService->moduleViewFor($request->user(), 'notas', 'listar');
 
         if (!$payload || !in_array('view', $payload['view']['permissions'], true)) {
             return response()->json(['message' => 'No tienes acceso al módulo de notas.'], 403);
@@ -73,7 +73,7 @@ class NotasController extends Controller
 
     public function update(Request $request, int $notaId): JsonResponse
     {
-        $payload = $this->rbacService->moduleViewFor($request->user(), 'notas', 'grid');
+        $payload = $this->rbacService->moduleViewFor($request->user(), 'notas', 'listar');
 
         if (!$payload || !in_array('edit', $payload['view']['permissions'], true)) {
             return response()->json(['message' => 'No tienes permisos para editar notas.'], 403);
@@ -137,7 +137,7 @@ class NotasController extends Controller
 
     public function destroy(Request $request, int $notaId): JsonResponse
     {
-        $payload = $this->rbacService->moduleViewFor($request->user(), 'notas', 'grid');
+        $payload = $this->rbacService->moduleViewFor($request->user(), 'notas', 'listar');
 
         if (!$payload || !in_array('delete', $payload['view']['permissions'], true)) {
             return response()->json(['message' => 'No tienes permisos para eliminar notas.'], 403);

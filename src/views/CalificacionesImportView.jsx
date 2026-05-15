@@ -77,7 +77,7 @@ function HistoryTable({ items }) {
 
   return (
     <div className="table-shell">
-      <table className="data-table">
+      <table className="sistedu-grid">
         <thead>
           <tr>
             <th>Fecha</th>
@@ -112,7 +112,7 @@ function InvalidRowsPreview({ items }) {
 
   return (
     <div className="table-shell">
-      <table className="data-table">
+      <table className="sistedu-grid">
         <thead>
           <tr>
             <th>Fila</th>

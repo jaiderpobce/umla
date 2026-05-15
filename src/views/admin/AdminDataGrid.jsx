@@ -222,7 +222,7 @@ export function AdminDataGrid({
       </div>
 
       <div className={`table-shell ${shellClassName}`.trim()}>
-        <table className={`data-table ${tableClassName}`.trim()}>
+        <table className={`sistedu-grid ${tableClassName}`.trim()}>
           <thead>
             <tr>
               {columns.map((column) => (

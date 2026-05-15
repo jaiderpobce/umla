@@ -21,7 +21,7 @@ export function ModuleView({ state, metrics, dataController, branding, onBrandin
   }
 
   const { module, view } = state.payload;
-  const isAdminCrudModule = ['usuarios', 'roles', 'modulos'].includes(module.slug);
+  const isAdminCrudModule = ['usuarios', 'roles', 'modulos', 'configuracion'].includes(module.slug);
   const isCalificacionesImport = view.component === 'GradesImport';
   const isNotasGrid = view.component === 'NotesGrid';
   const isInstitutionSettings = view.component === 'InstitutionSettings';

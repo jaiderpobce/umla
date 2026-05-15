@@ -30,9 +30,20 @@ function moduleLabel(module) {
 
 export function SidebarView({ branding, modules, activeModuleSlug, isOpen, onClose, onModuleSelect }) {
   const dashboardModule = modules.find((module) => module.slug === 'dashboard') || null;
-  const primaryModules = modules.filter((module) => module.slug !== 'dashboard' && !configurationModuleSlugs.includes(module.slug));
+  const configModule = modules.find((module) => module.slug === 'configuracion') || null;
+  
+  const primaryModules = modules.filter((module) => 
+    module.slug !== 'dashboard' && 
+    module.slug !== 'configuracion' &&
+    !configurationModuleSlugs.includes(module.slug)
+  );
+
   const configurationModules = modules.filter((module) => configurationModuleSlugs.includes(module.slug));
-  const configurationActive = configurationModules.some((module) => module.slug === activeModuleSlug);
+  
+  // Use either separate modules or views from the 'configuracion' module
+  const hasConfiguration = configurationModules.length > 0 || configModule;
+  const configurationActive = configurationModules.some((module) => module.slug === activeModuleSlug) || (configModule && activeModuleSlug === configModule.slug);
+  
   const [configurationOpen, setConfigurationOpen] = useState(false);
   const isFirstRender = useRef(true);
 
@@ -92,7 +103,7 @@ export function SidebarView({ branding, modules, activeModuleSlug, isOpen, onClo
             </button>
           ))}
 
-          {configurationModules.length > 0 ? (
+          {hasConfiguration ? (
             <section className={`sidebar-group ${configurationActive ? 'is-active' : ''}`}>
               <button className={`sidebar-link sidebar-group-toggle ${configurationOpen ? 'is-open' : ''}`} onClick={handleConfigurationToggle}>
                 <span className="sidebar-icon">
@@ -106,6 +117,7 @@ export function SidebarView({ branding, modules, activeModuleSlug, isOpen, onClo
 
               {configurationOpen ? (
                 <div className="sidebar-subnav">
+                  {/* Separate modules mode */}
                   {configurationModules.map((module) => (
                     <button
                       key={module.id}
@@ -116,6 +128,20 @@ export function SidebarView({ branding, modules, activeModuleSlug, isOpen, onClo
                         <ModuleIcon slug={module.slug} className="sidebar-subicon-svg" />
                       </span>
                       <span>{moduleLabel(module)}</span>
+                    </button>
+                  ))}
+                  
+                  {/* Single module with multiple views mode */}
+                  {configModule?.views.map((view) => (
+                    <button
+                      key={view.id}
+                      className={`sidebar-sublink ${activeModuleSlug === configModule.slug ? 'is-active' : ''}`} // Simplified check
+                      onClick={() => onModuleSelect(view.route)}
+                    >
+                      <span className="sidebar-subicon">
+                        <ModuleIcon slug={view.slug} className="sidebar-subicon-svg" />
+                      </span>
+                      <span>{view.name}</span>
                     </button>
                   ))}
                 </div>

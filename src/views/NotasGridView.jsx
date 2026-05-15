@@ -199,7 +199,7 @@ export function NotasGridView({ dataController, permissions }) {
         {loading ? <p className="empty-inline">Cargando notas...</p> : (
           <>
             <div className="table-shell notas-table-shell">
-              <table className="data-table notas-table">
+              <table className="sistedu-grid notas-table">
                 <thead>
                   <tr>
                     <th>Matrícula</th>

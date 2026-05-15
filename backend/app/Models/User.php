@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,6 +47,26 @@ class User extends Authenticatable
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    public function financeCharges(): HasMany
+    {
+        return $this->hasMany(FinanceCharge::class, 'user_id');
+    }
+
+    public function financePayments(): HasMany
+    {
+        return $this->hasMany(FinancePayment::class, 'user_id');
+    }
+
+    public function financeCreatedPeriods(): HasMany
+    {
+        return $this->hasMany(FinancePeriod::class, 'created_by_user_id');
+    }
+
+    public function financeReceipts(): HasMany
+    {
+        return $this->hasMany(FinanceReceipt::class, 'student_user_id');
     }
 
     public function setPasswordAttribute($value): void
