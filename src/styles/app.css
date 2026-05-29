@@ -60,11 +60,11 @@ button {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: 24px 16px;
+  padding: 24px 0; /* Removing side padding for Google-style full-width links */
   overflow: hidden;
-  background: #0f172a; /* Enterprise Deep Slate */
-  color: #f8fafc;
-  border-right: 1px solid #1e293b;
+  background: #202124; /* Google Dark Surface */
+  color: #e8eaed;
+  border-right: 1px solid #3c4043;
 }
 
 .sidebar-brand {
@@ -75,12 +75,12 @@ button {
 }
 
 .sidebar-brand-logo {
-  width: 100%;
-  padding: 16px;
-  border-radius: 12px;
-  background: #1e293b;
-  border: 1px solid #334155;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: calc(100% - 24px);
+  margin: 0 auto 16px;
+  padding: 14px;
+  border-radius: 8px;
+  background: #202124;
+  border: 1px solid #3c4043;
 }
 
 .sidebar-brand-logo::before {
@@ -223,16 +223,14 @@ button {
 .sidebar-group {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 8px;
-  border: 1px solid #1e293b;
-  border-radius: 12px;
-  background: rgba(30, 41, 59, 0.5);
+  gap: 2px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .sidebar-group.is-active {
-  border-color: #334155;
-  background: #1e293b;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .sidebar-group-header {
@@ -294,66 +292,68 @@ button {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 12px;
+  padding: 12px 24px;
   border: 0;
-  border-radius: 8px;
-  color: #94a3b8;
+  border-radius: 0 24px 24px 0; /* Google Pill Style */
+  color: #9aa0a6;
   background: transparent;
   text-align: left;
   cursor: pointer;
-  transition: all 150ms ease;
+  transition: all 180ms ease;
+  margin-right: 12px;
 }
 
 .sidebar-link:hover {
-  background: #1e293b;
-  color: #f8fafc;
+  background: #3c4043;
+  color: #e8eaed;
 }
 
 .sidebar-link.is-active {
-  background: #3b82f6; /* Enterprise Blue */
-  color: #ffffff;
-  font-weight: 500;
+  background: #e8f0fe; /* Google Light Blue Active */
+  color: #1a73e8; /* Google Blue Text */
+  font-weight: 600;
 }
 
 .sidebar-link.is-active .sidebar-icon {
-  background: rgba(255, 255, 255, 0.2);
+  background: #1a73e8;
   color: #ffffff;
 }
 
 .sidebar-sublink {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-height: 38px;
-  padding: 0 12px;
-  border-radius: 6px;
-  color: #64748b;
+  gap: 12px;
+  min-height: 40px;
+  padding: 0 24px 0 60px; /* More indentation for Google style */
+  border-radius: 0 20px 20px 0;
+  color: #9aa0a6;
   background: transparent;
   text-align: left;
   cursor: pointer;
-  transition: all 150ms ease;
+  transition: all 180ms ease;
+  margin-right: 12px;
 }
 
 .sidebar-sublink:hover {
-  color: #f8fafc;
-  background: rgba(255, 255, 255, 0.05);
+  background: #3c4043;
+  color: #e8eaed;
 }
 
 .sidebar-sublink.is-active {
-  color: #3b82f6;
-  font-weight: 600;
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(138, 180, 248, 0.12); /* Subtle blue background for sub-items */
+  color: #8ab4f8; /* Lighter blue for sub-items on dark */
+  font-weight: 500;
 }
 
 .sidebar-icon {
   display: inline-grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  background: #334155;
-  color: #94a3b8;
-  transition: all 150ms ease;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  transition: all 180ms ease;
 }
 
 .sidebar-icon-svg {
