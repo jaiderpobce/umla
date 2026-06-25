@@ -76,6 +76,7 @@ Route::prefix('api')->group(function () {
             Route::get('/users', [UserAdminController::class, 'index']);
             Route::post('/users', [UserAdminController::class, 'store']);
             Route::post('/users/reset-student-passwords', [UserAdminController::class, 'resetStudentPasswords']);
+            Route::post('/users/{user}/reset-password', [UserAdminController::class, 'resetPassword']);
             Route::put('/users/{user}', [UserAdminController::class, 'update']);
             Route::delete('/users/{user}', [UserAdminController::class, 'destroy']);
 

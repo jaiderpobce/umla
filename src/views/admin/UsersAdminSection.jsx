@@ -132,6 +132,22 @@ export function UsersAdminSection({ users, roles, dataController, runAction }) {
     }, 'Contraseñas de estudiantes restablecidas a "passwd".');
   }
 
+  // Restablece la contraseña del usuario seleccionado a "passwd"
+  async function handleResetUserPassword() {
+    if (!selectedUser) {
+      return;
+    }
+
+    if (!window.confirm(`¿Estás seguro de que deseas restablecer la contraseña de ${selectedUser.name} a "passwd"?`)) {
+      return;
+    }
+
+    await runAction(async () => {
+      await dataController.resetUserPassword(selectedUser.id);
+    }, `Contraseña de ${selectedUser.name} restablecida a "passwd".`);
+  }
+
+
   return (
     <>
       <AdminDataGrid
@@ -212,6 +228,10 @@ export function UsersAdminSection({ users, roles, dataController, runAction }) {
               <button className="inline-button danger icon-button" type="button" disabled={!selectedUser} onClick={deleteSelectedUser}>
                 <Trash2 size={15} />
                 <span>Eliminar</span>
+              </button>
+              <button className="inline-button icon-button" type="button" disabled={!selectedUser} onClick={handleResetUserPassword}>
+                <Key size={15} />
+                <span>Reset Contraseña</span>
               </button>
               <button className="inline-button danger icon-button" type="button" onClick={handleResetStudentPasswords}>
                 <Key size={15} />

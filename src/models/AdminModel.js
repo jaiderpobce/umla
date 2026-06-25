@@ -31,6 +31,12 @@ export class AdminModel {
     });
   }
 
+  async resetUserPassword(userId) {
+    return apiRequest(`/umla-api/api/admin/users/${userId}/reset-password`, {
+      method: 'POST',
+    });
+  }
+
   async createRole(payload) {
     return apiRequest('/umla-api/api/admin/roles', {
       method: 'POST',

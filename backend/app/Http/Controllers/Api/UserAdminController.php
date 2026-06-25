@@ -106,4 +106,16 @@ class UserAdminController extends Controller
             'message' => "Se han reseteado las contraseñas de {$count} estudiantes.",
         ]);
     }
+
+    public function resetPassword(Request $request, User $user): JsonResponse
+    {
+        $user->update([
+            'password' => 'passwd',
+            'must_change_password' => true,
+        ]);
+
+        return response()->json([
+            'message' => "Se ha restablecido la contraseña de {$user->name} a \"passwd\".",
+        ]);
+    }
 }

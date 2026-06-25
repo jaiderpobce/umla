@@ -57,6 +57,10 @@ export class DashboardController {
     return this.adminModel.resetStudentPasswords();
   }
 
+  async resetUserPassword(userId) {
+    return this.adminModel.resetUserPassword(userId);
+  }
+
   async createRole(payload) {
     return this.adminModel.createRole(payload);
   }

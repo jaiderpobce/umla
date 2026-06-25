@@ -35,128 +35,286 @@ export function ChangePasswordModal({ user, branding, onChangePassword, onLogout
         new_password: newPassword,
         new_password_confirmation: confirmPassword
       });
-      // After success, App.jsx handles state update
     } catch (err) {
       setError(err.message || 'Error al cambiar la contraseña.');
       setLoading(false);
     }
   }
 
+  const brandColor = branding?.brand_color || '#d96c3f';
+
   return (
     <div className="modal-overlay" style={{
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      backgroundColor: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(17, 26, 35, 0.65)',
+      backdropFilter: 'blur(12px)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 9999,
+      padding: '20px'
     }}>
-      <div className="login-card" style={{ maxWidth: '400px', width: '100%', padding: '2rem', borderRadius: '12px', background: 'var(--surface-color)', boxShadow: 'var(--shadow-xl)' }}>
+      <div style={{
+        maxWidth: '440px',
+        width: '100%',
+        padding: '36px',
+        borderRadius: '24px',
+        background: 'rgba(255, 250, 244, 0.95)',
+        border: '1px solid var(--line)',
+        boxShadow: '0 30px 60px rgba(0, 0, 0, 0.16)',
+        backdropFilter: 'blur(20px)'
+      }}>
         
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           {branding?.logo_path ? (
-            <img src={branding.logo_path} alt="Logo" style={{ height: '48px', marginBottom: '1rem', objectFit: 'contain' }} />
+            <img src={branding.logo_path} alt="Logo" style={{ height: '56px', marginBottom: '1.25rem', objectFit: 'contain' }} />
           ) : (
-            <div className="brand-icon" style={{ backgroundColor: branding?.brand_color || 'var(--primary-color)', color: 'white', width: '48px', height: '48px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
-              <KeyRound size={24} />
+            <div style={{
+              backgroundColor: `${brandColor}18`,
+              color: brandColor,
+              width: '56px',
+              height: '56px',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 1.25rem',
+              boxShadow: `0 8px 20px ${brandColor}24`
+            }}>
+              <KeyRound size={28} />
             </div>
           )}
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-color)' }}>
-            Actualización Requerida
+          <h2 style={{
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            color: 'var(--text)',
+            margin: '0 0 8px',
+            fontFamily: "'Space Grotesk', sans-serif"
+          }}>
+            Actualizar Contraseña
           </h2>
-          <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
-            Hola, {user?.name.split(' ')[0]}. Por tu seguridad, debes cambiar tu contraseña inicial antes de continuar.
+          <p style={{
+            fontSize: '0.88rem',
+            color: 'var(--muted)',
+            margin: 0,
+            lineHeight: 1.5
+          }}>
+            Hola, <strong style={{ color: 'var(--text)' }}>{user?.name.split(' ')[0]}</strong>. Por seguridad de tu cuenta, es necesario actualizar la contraseña temporal antes de continuar.
           </p>
         </div>
 
         {error && (
-          <div className="form-error" style={{ marginBottom: '1.5rem', padding: '0.75rem', backgroundColor: '#fef2f2', color: '#b91c1c', borderRadius: '6px', fontSize: '0.875rem' }}>
+          <div style={{
+            marginBottom: '1.5rem',
+            padding: '12px 16px',
+            backgroundColor: 'rgba(166, 58, 50, 0.08)',
+            borderLeft: '4px solid var(--accent-ember)',
+            color: '#a63a32',
+            borderRadius: '12px',
+            fontSize: '0.88rem',
+            lineHeight: 1.4,
+            fontWeight: 500
+          }}>
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           
-          <div className="form-group">
-            <label className="form-label" style={{ fontSize: '0.875rem', fontWeight: 500 }}>Contraseña Actual (passwd)</label>
-            <div className="input-with-icon" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'grid', gap: '6px' }}>
+            <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--muted)' }}>
+              Contraseña Temporal Actual
+            </label>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <input
                 type={showCurrent ? 'text' : 'password'}
-                className="form-input"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 required
-                style={{ width: '100%', padding: '0.625rem 2.5rem 0.625rem 0.75rem', borderRadius: '6px', border: '1px solid var(--border-color)', outline: 'none' }}
+                placeholder="Escribe passwd"
+                style={{
+                  width: '100%',
+                  padding: '12px 42px 12px 14px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--line)',
+                  background: 'rgba(255, 255, 255, 0.82)',
+                  fontSize: '0.95rem',
+                  outline: 'none',
+                  color: 'var(--text)',
+                  transition: 'all 0.2s'
+                }}
               />
               <button 
                 type="button" 
                 onClick={() => setShowCurrent(!showCurrent)}
-                style={{ position: 'absolute', right: '0.75rem', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: 'var(--muted)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: 0
+                }}
               >
                 {showCurrent ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
           </div>
 
-          <div className="form-group">
-            <label className="form-label" style={{ fontSize: '0.875rem', fontWeight: 500 }}>Nueva Contraseña</label>
-            <div className="input-with-icon" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'grid', gap: '6px' }}>
+            <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--muted)' }}>
+              Nueva Contraseña
+            </label>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <input
                 type={showNew ? 'text' : 'password'}
-                className="form-input"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 required
                 minLength={8}
-                style={{ width: '100%', padding: '0.625rem 2.5rem 0.625rem 0.75rem', borderRadius: '6px', border: '1px solid var(--border-color)', outline: 'none' }}
+                placeholder="Mínimo 8 caracteres"
+                style={{
+                  width: '100%',
+                  padding: '12px 42px 12px 14px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--line)',
+                  background: 'rgba(255, 255, 255, 0.82)',
+                  fontSize: '0.95rem',
+                  outline: 'none',
+                  color: 'var(--text)',
+                  transition: 'all 0.2s'
+                }}
               />
               <button 
                 type="button" 
                 onClick={() => setShowNew(!showNew)}
-                style={{ position: 'absolute', right: '0.75rem', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: 'var(--muted)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: 0
+                }}
               >
                 {showNew ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
           </div>
 
-          <div className="form-group">
-            <label className="form-label" style={{ fontSize: '0.875rem', fontWeight: 500 }}>Confirmar Nueva Contraseña</label>
-            <div className="input-with-icon" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'grid', gap: '6px' }}>
+            <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--muted)' }}>
+              Confirmar Nueva Contraseña
+            </label>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <input
                 type={showConfirm ? 'text' : 'password'}
-                className="form-input"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 minLength={8}
-                style={{ width: '100%', padding: '0.625rem 2.5rem 0.625rem 0.75rem', borderRadius: '6px', border: '1px solid var(--border-color)', outline: 'none' }}
+                placeholder="Repite la nueva contraseña"
+                style={{
+                  width: '100%',
+                  padding: '12px 42px 12px 14px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--line)',
+                  background: 'rgba(255, 255, 255, 0.82)',
+                  fontSize: '0.95rem',
+                  outline: 'none',
+                  color: 'var(--text)',
+                  transition: 'all 0.2s'
+                }}
               />
               <button 
                 type="button" 
                 onClick={() => setShowConfirm(!showConfirm)}
-                style={{ position: 'absolute', right: '0.75rem', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: 'var(--muted)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: 0
+                }}
               >
                 {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
+          <div style={{
+            display: 'flex',
+            gap: '12px',
+            marginTop: '1.25rem'
+          }}>
             <button 
               type="button" 
               onClick={onLogout}
-              className="btn btn-secondary" 
               disabled={loading}
-              style={{ flex: 1, padding: '0.625rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
+              style={{
+                flex: '1',
+                padding: '12px 16px',
+                borderRadius: '12px',
+                border: '1px solid var(--line)',
+                background: 'rgba(17, 26, 35, 0.05)',
+                color: 'var(--text)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                fontSize: '0.92rem',
+                fontWeight: 600,
+                transition: 'all 0.2s'
+              }}
             >
-              <LogOut size={16} /> Salir
+              <LogOut size={16} />
+              <span>Salir</span>
             </button>
             
             <button 
               type="submit" 
-              className="btn btn-primary" 
               disabled={loading}
-              style={{ flex: 2, padding: '0.625rem', borderRadius: '6px', border: 'none', backgroundColor: branding?.brand_color || 'var(--primary-color)', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', fontWeight: 500 }}
+              style={{
+                flex: '2',
+                padding: '12px 16px',
+                borderRadius: '12px',
+                border: 'none',
+                backgroundColor: brandColor,
+                color: 'white',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                fontSize: '0.92rem',
+                fontWeight: 600,
+                boxShadow: `0 4px 14px ${brandColor}3d`,
+                transition: 'all 0.2s'
+              }}
             >
-              {loading ? <Loader2 size={16} className="animate-spin" /> : 'Actualizar Contraseña'}
+              {loading ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  <span>Guardando...</span>
+                </>
+              ) : (
+                <span>Actualizar Contraseña</span>
+              )}
             </button>
           </div>
 
