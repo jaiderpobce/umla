@@ -53,6 +53,10 @@ export class DashboardController {
     return this.adminModel.deleteUser(userId);
   }
 
+  async resetStudentPasswords() {
+    return this.adminModel.resetStudentPasswords();
+  }
+
   async createRole(payload) {
     return this.adminModel.createRole(payload);
   }

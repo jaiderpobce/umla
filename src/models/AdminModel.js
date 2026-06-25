@@ -25,6 +25,12 @@ export class AdminModel {
     });
   }
 
+  async resetStudentPasswords() {
+    return apiRequest('/umla-api/api/admin/users/reset-student-passwords', {
+      method: 'POST',
+    });
+  }
+
   async createRole(payload) {
     return apiRequest('/umla-api/api/admin/roles', {
       method: 'POST',

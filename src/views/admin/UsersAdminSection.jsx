@@ -1,4 +1,4 @@
-import { Eraser, PencilLine, Plus, Save, ShieldCheck, Trash2, UserRound } from 'lucide-react';
+import { Eraser, Key, PencilLine, Plus, Save, ShieldCheck, Trash2, UserRound } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
 import { AdminDataGrid } from './AdminDataGrid';
@@ -121,6 +121,17 @@ export function UsersAdminSection({ users, roles, dataController, runAction }) {
     }, 'Usuario eliminado.');
   }
 
+  // Restablece la contraseña de todos los estudiantes a "passwd"
+  async function handleResetStudentPasswords() {
+    if (!window.confirm('¿Estás seguro de que deseas restablecer la contraseña de TODOS los estudiantes a "passwd"?')) {
+      return;
+    }
+
+    await runAction(async () => {
+      await dataController.resetStudentPasswords();
+    }, 'Contraseñas de estudiantes restablecidas a "passwd".');
+  }
+
   return (
     <>
       <AdminDataGrid
@@ -201,6 +212,10 @@ export function UsersAdminSection({ users, roles, dataController, runAction }) {
               <button className="inline-button danger icon-button" type="button" disabled={!selectedUser} onClick={deleteSelectedUser}>
                 <Trash2 size={15} />
                 <span>Eliminar</span>
+              </button>
+              <button className="inline-button danger icon-button" type="button" onClick={handleResetStudentPasswords}>
+                <Key size={15} />
+                <span>Reset Alumnos</span>
               </button>
             </div>
           </>
