@@ -56,6 +56,16 @@ export function InstitutionSettingsView({ dataController, branding, onBrandingCh
     };
   }, [dataController]);
 
+  useEffect(() => {
+    if (message || error) {
+      const timer = setTimeout(() => {
+        setMessage('');
+        setError('');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message, error]);
+
   async function handleSubmit(event) {
     event.preventDefault();
     setSaving(true);

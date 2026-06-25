@@ -95,6 +95,16 @@ export function AdminCrudView({ moduleSlug, adminViewSlug, dataController, permi
     }
   }, [selectedModuleId]);
 
+  useEffect(() => {
+    if (message || error) {
+      const timer = setTimeout(() => {
+        setMessage('');
+        setError('');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message, error]);
+
   async function reloadBootstrap(messageText = '') {
     const payload = await dataController.getAdminBootstrap();
     setBoot(payload);

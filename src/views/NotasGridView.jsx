@@ -91,6 +91,16 @@ export function NotasGridView({ dataController, permissions }) {
   const [error, setError] = useState('');
   const [editing, setEditing] = useState(emptyForm());
 
+  useEffect(() => {
+    if (message || error) {
+      const timer = setTimeout(() => {
+        setMessage('');
+        setError('');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message, error]);
+
   const canEdit = permissions.includes('edit');
   const canDelete = permissions.includes('delete');
 

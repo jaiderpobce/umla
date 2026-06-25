@@ -1330,19 +1330,42 @@ button {
 }
 
 .admin-message {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
   margin: 0;
-  padding: 12px 16px;
+  padding: 16px 24px;
   border-radius: 16px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  min-width: 320px;
+  max-width: 450px;
+  font-weight: 500;
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .admin-message.is-error {
-  color: #a63a32;
+  border-left: 6px solid #ef4444;
+  color: #991b1b;
+  background: rgba(254, 242, 242, 0.96);
 }
 
 .admin-message.is-success {
-  color: #3b6b45;
+  border-left: 6px solid #10b981;
+  color: #065f46;
+  background: rgba(240, 253, 250, 0.96);
 }
 
 .import-feedback {
