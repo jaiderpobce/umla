@@ -556,7 +556,8 @@ class CalificacionesImportService
             $user = User::create([
                 'name' => $fullName,
                 'email' => $payload['Email'],
-                'password' => $payload['Matricula'],
+                'password' => 'passwd',
+                'must_change_password' => true,
             ]);
         }
 

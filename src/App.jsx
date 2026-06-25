@@ -6,6 +6,7 @@ import { SidebarView } from './views/SidebarView.jsx';
 import { TopbarView } from './views/TopbarView.jsx';
 import { ModuleView } from './views/ModuleView.jsx';
 import { LoginView } from './views/LoginView.jsx';
+import { ChangePasswordModal } from './views/ChangePasswordModal.jsx';
 
 const authController = new AuthController();
 const dashboardController = new DashboardController();
@@ -213,6 +214,11 @@ export default function App() {
     setNavigation([]);
   }
 
+  async function handleChangePassword(data) {
+    await authController.changePassword(data);
+    setUser({ ...user, requires_password_change: false });
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -238,6 +244,15 @@ export default function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+
+      {user?.requires_password_change && (
+        <ChangePasswordModal 
+          user={user} 
+          branding={branding} 
+          onChangePassword={handleChangePassword} 
+          onLogout={handleLogout} 
+        />
+      )}
     </AppContext.Provider>
   );
 }

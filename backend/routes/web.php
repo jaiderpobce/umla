@@ -31,6 +31,24 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/test-db-laravel', function () {
+    try {
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Conexion a la base de datos a traves de Laravel establecida con exito.',
+            'database' => \Illuminate\Support\Facades\DB::connection()->getDatabaseName(),
+            'tables' => array_map('current', \Illuminate\Support\Facades\DB::select('SHOW TABLES')),
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Fallo la conexion a la base de datos desde Laravel.',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
+});
+
 Route::get('/branding-assets/{fileName}', [BrandingController::class, 'asset'])
     ->where('fileName', '[A-Za-z0-9\-_.]+');
 
@@ -41,6 +59,7 @@ Route::prefix('api')->group(function () {
     Route::get('/auth/me', [AuthController::class, 'me']);
 
     Route::middleware('auth')->group(function () {
+        Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
         Route::get('/navigation', [NavigationController::class, 'navigation']);
         Route::get('/modules/{moduleSlug}/{viewSlug}', [NavigationController::class, 'show']);
         Route::get('/calificaciones/importacion/summary', [CalificacionesImportController::class, 'summary']);
@@ -56,6 +75,7 @@ Route::prefix('api')->group(function () {
 
             Route::get('/users', [UserAdminController::class, 'index']);
             Route::post('/users', [UserAdminController::class, 'store']);
+            Route::post('/users/reset-student-passwords', [UserAdminController::class, 'resetStudentPasswords']);
             Route::put('/users/{user}', [UserAdminController::class, 'update']);
             Route::delete('/users/{user}', [UserAdminController::class, 'destroy']);
 

@@ -7,17 +7,28 @@ export class AuthModel {
       body: JSON.stringify(credentials),
     });
 
-    return response.user;
+    const user = response.user;
+    if (user) user.requires_password_change = response.requires_password_change;
+    return user;
   }
 
   async getCurrentUser() {
     const response = await apiRequest('/umla-api/api/auth/me');
-    return response.user;
+    const user = response.user;
+    if (user) user.requires_password_change = response.requires_password_change;
+    return user;
   }
 
   async logout() {
     await apiRequest('/umla-api/api/auth/logout', {
       method: 'POST',
+    });
+  }
+
+  async changePassword(data) {
+    return await apiRequest('/umla-api/api/auth/change-password', {
+      method: 'POST',
+      body: JSON.stringify(data),
     });
   }
 }

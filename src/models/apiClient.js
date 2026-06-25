@@ -5,7 +5,8 @@ export async function apiRequest(url, options = {}) {
     ...(options.headers || {}),
   };
 
-  if (!isFormData) {
+  const method = (options.method || 'GET').toUpperCase();
+  if (!isFormData && method !== 'GET' && method !== 'HEAD') {
     headers['Content-Type'] = 'application/json';
   }
 

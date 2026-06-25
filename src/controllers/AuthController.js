@@ -16,4 +16,8 @@ export class AuthController {
   async logout() {
     return this.model.logout();
   }
+
+  async changePassword(data) {
+    return this.model.changePassword(data);
+  }
 }

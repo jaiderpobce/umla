@@ -37,6 +37,11 @@ class UserAdminController extends Controller
         $user = User::create($payload);
         $user->roles()->sync($payload['role_ids'] ?? []);
 
+        // Si el usuario creado tiene el rol 'estudiante', forzar cambio de contraseña en primer login.
+        if ($user->roles()->where('slug', 'estudiante')->exists()) {
+            $user->update(['must_change_password' => true]);
+        }
+
         return response()->json([
             'message' => 'Usuario creado.',
             'user' => $user->load('roles:id,name,slug'),
@@ -60,6 +65,11 @@ class UserAdminController extends Controller
         $user->update($payload);
         $user->roles()->sync($payload['role_ids'] ?? []);
 
+        // Si tras la actualización el usuario tiene rol 'estudiante', forzar cambio de contraseña.
+        if ($user->roles()->where('slug', 'estudiante')->exists()) {
+            $user->update(['must_change_password' => true]);
+        }
+
         return response()->json([
             'message' => 'Usuario actualizado.',
             'user' => $user->load('roles:id,name,slug'),
@@ -78,6 +88,26 @@ class UserAdminController extends Controller
 
         return response()->json([
             'message' => 'Usuario eliminado.',
+        ]);
+    }
+
+    public function resetStudentPasswords(Request $request): JsonResponse
+    {
+        $students = User::whereHas('roles', function ($query) {
+            $query->where('slug', 'estudiante');
+        })->get();
+
+        $count = 0;
+        foreach ($students as $student) {
+            $student->update([
+                'password' => 'passwd',
+                'must_change_password' => true,
+            ]);
+            $count++;
+        }
+
+        return response()->json([
+            'message' => "Se han reseteado las contraseñas de {$count} estudiantes.",
         ]);
     }
 }
