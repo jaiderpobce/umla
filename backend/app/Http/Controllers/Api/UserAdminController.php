@@ -93,18 +93,14 @@ class UserAdminController extends Controller
 
     public function resetStudentPasswords(Request $request): JsonResponse
     {
-        $students = User::whereHas('roles', function ($query) {
-            $query->where('slug', 'estudiante');
-        })->get();
+        $hashed = bcrypt('passwd');
 
-        $count = 0;
-        foreach ($students as $student) {
-            $student->update([
-                'password' => 'passwd',
-                'must_change_password' => true,
-            ]);
-            $count++;
-        }
+        $count = User::whereHas('roles', function ($query) {
+            $query->where('slug', 'estudiante');
+        })->update([
+            'password' => $hashed,
+            'must_change_password' => true,
+        ]);
 
         return response()->json([
             'message' => "Se han reseteado las contraseñas de {$count} estudiantes.",
