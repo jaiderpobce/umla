@@ -1,12 +1,16 @@
 import { apiRequest } from './apiClient.js';
 
 export class NotasModel {
-  async getNotas({ search = '', page = 1, perPage = 15 } = {}) {
+  async getNotas({ search = '', page = 1, perPage = 15, matricula = '' } = {}) {
     const params = new URLSearchParams({
       search,
       page: String(page),
       per_page: String(perPage),
     });
+
+    if (matricula) {
+      params.append('matricula', matricula);
+    }
 
     return apiRequest(`/umla-api/api/notas?${params.toString()}`);
   }

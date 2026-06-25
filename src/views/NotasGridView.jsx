@@ -90,6 +90,8 @@ export function NotasGridView({ dataController, permissions }) {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [editing, setEditing] = useState(emptyForm());
+  const [matriculas, setMatriculas] = useState([]);
+  const [selectedMatricula, setSelectedMatricula] = useState('');
 
   useEffect(() => {
     if (message || error) {
@@ -104,18 +106,27 @@ export function NotasGridView({ dataController, permissions }) {
   const canEdit = permissions.includes('edit');
   const canDelete = permissions.includes('delete');
 
-  async function loadNotas(page = 1, currentSearch = appliedSearch, currentPerPage = perPage) {
+  async function loadNotas(page = 1, currentSearch = appliedSearch, currentPerPage = perPage, currentMatricula = selectedMatricula) {
     setLoading(true);
     setError('');
     try {
-      const response = await dataController.getNotas({ search: currentSearch, page, perPage: currentPerPage });
+      const response = await dataController.getNotas({ search: currentSearch, page, perPage: currentPerPage, matricula: currentMatricula });
       setRows(response.data || []);
       setMeta(response.meta || { current_page: 1, last_page: 1, total: 0 });
+      if (response.matriculas) {
+        setMatriculas(response.matriculas);
+      }
     } catch (loadError) {
       setError(loadError.message);
     } finally {
       setLoading(false);
     }
+  }
+
+  async function handleMatriculaChange(event) {
+    const nextMatricula = event.target.value;
+    setSelectedMatricula(nextMatricula);
+    await loadNotas(1, appliedSearch, perPage, nextMatricula);
   }
 
   useEffect(() => {
@@ -201,6 +212,17 @@ export function NotasGridView({ dataController, permissions }) {
               <option value="100">100</option>
             </select>
           </label>
+          {matriculas && matriculas.length > 1 ? (
+            <label className="notas-page-size-field">
+              <span>Filtrar por Carrera</span>
+              <select className="notas-page-size-select" value={selectedMatricula} onChange={handleMatriculaChange}>
+                <option value="">Todas las carreras</option>
+                {matriculas.map((mat) => (
+                  <option key={mat} value={mat}>{mat}</option>
+                ))}
+              </select>
+            </label>
+          ) : null}
         </form>
 
         {message ? <p className="admin-message is-success">{message}</p> : null}

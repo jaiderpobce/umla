@@ -29,6 +29,7 @@ class NotasController extends Controller
 
         $perPage = max(1, min(100, (int) $request->query('per_page', 15)));
         $search = trim((string) $request->query('search', ''));
+        $matricula = trim((string) $request->query('matricula', ''));
 
         $query = DB::table('calificaciones_old')->orderByDesc('id');
 
@@ -37,6 +38,10 @@ class NotasController extends Controller
                 $scope->where('id_estudiante', $request->user()->id)
                     ->orWhere('Email', $request->user()->email);
             });
+        }
+
+        if ($matricula !== '') {
+            $query->where('Matricula', $matricula);
         }
 
         if ($search !== '') {
@@ -56,6 +61,20 @@ class NotasController extends Controller
 
         $result = $query->paginate($perPage);
 
+        $matriculas = [];
+        if ($this->isStudentOnly($request->user())) {
+            $matriculas = DB::table('calificaciones_old')
+                ->where(function ($scope) use ($request) {
+                    $scope->where('id_estudiante', $request->user()->id)
+                        ->orWhere('Email', $request->user()->email);
+                })
+                ->whereNotNull('Matricula')
+                ->where('Matricula', '!=', '')
+                ->distinct()
+                ->pluck('Matricula')
+                ->all();
+        }
+
         return response()->json([
             'data' => collect($result->items())->map(function ($item) {
                 return $this->serializeNota($item);
@@ -68,6 +87,7 @@ class NotasController extends Controller
                 'from' => $result->firstItem(),
                 'to' => $result->lastItem(),
             ],
+            'matriculas' => $matriculas,
         ]);
     }
 
