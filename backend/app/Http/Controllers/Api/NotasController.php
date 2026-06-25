@@ -61,19 +61,22 @@ class NotasController extends Controller
 
         $result = $query->paginate($perPage);
 
-        $matriculas = [];
+        $queryMatriculas = DB::table('calificaciones_old')
+            ->whereNotNull('Matricula')
+            ->where('Matricula', '!=', '');
+
         if ($this->isStudentOnly($request->user())) {
-            $matriculas = DB::table('calificaciones_old')
-                ->where(function ($scope) use ($request) {
-                    $scope->where('id_estudiante', $request->user()->id)
-                        ->orWhere('Email', $request->user()->email);
-                })
-                ->whereNotNull('Matricula')
-                ->where('Matricula', '!=', '')
-                ->distinct()
-                ->pluck('Matricula')
-                ->all();
+            $queryMatriculas->where(function ($scope) use ($request) {
+                $scope->where('id_estudiante', $request->user()->id)
+                    ->orWhere('Email', $request->user()->email);
+            });
         }
+
+        $matriculas = $queryMatriculas
+            ->distinct()
+            ->orderBy('Matricula')
+            ->pluck('Matricula')
+            ->all();
 
         return response()->json([
             'data' => collect($result->items())->map(function ($item) {
