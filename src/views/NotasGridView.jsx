@@ -212,7 +212,7 @@ export function NotasGridView({ dataController, permissions }) {
               <option value="100">100</option>
             </select>
           </label>
-          {matriculas && matriculas.length > 1 ? (
+          {matriculas && matriculas.length > 0 ? (
             <label className="notas-page-size-field">
               <span>Filtrar por Carrera</span>
               <select className="notas-page-size-select" value={selectedMatricula} onChange={handleMatriculaChange}>
