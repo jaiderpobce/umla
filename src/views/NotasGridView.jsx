@@ -234,49 +234,49 @@ export function NotasGridView({ dataController, permissions }) {
               <table className="sistedu-grid notas-table">
                 <thead>
                   <tr>
-                    <th>Matrícula</th>
-                    <th>Alumno</th>
-                    <th>Tetramestre</th>
-                    <th>Asignatura</th>
-                    <th>Calificación</th>
-                    <th>Catedrático</th>
-                    {(canEdit || canDelete) ? <th>Acciones</th> : null}
+                    <th className="col-matricula">Matrícula</th>
+                    <th className="col-alumno">Alumno</th>
+                    <th className="col-tetramestre">Tetramestre</th>
+                    <th className="col-asignatura">Asignatura</th>
+                    <th className="col-calificacion">Calificación</th>
+                    <th className="col-catedratico">Catedrático</th>
+                    {(canEdit || canDelete) ? <th className="col-acciones">Acciones</th> : null}
                   </tr>
                 </thead>
                 <tbody>
                   {rows.map((row) => (
                     <tr key={row.id}>
-                      <td data-label="Matrícula">
+                      <td className="col-matricula" data-label="Matrícula">
                         <div className="notas-cell-stack">
                           <strong>{row.Matricula}</strong>
                           <span>ID {row.id}</span>
                         </div>
                       </td>
-                      <td data-label="Alumno">
+                      <td className="col-alumno" data-label="Alumno">
                         <div className="notas-cell-stack">
                           <strong>{[row.Nombre, row.APaterno, row.AMaterno].filter(Boolean).join(' ')}</strong>
                           <span>{row.Email}</span>
                         </div>
                       </td>
-                      <td data-label="Tetramestre">
+                      <td className="col-tetramestre" data-label="Tetramestre">
                         <div className="notas-meta-chip">
                           <span>{row.Tetramestre || 'N/D'}</span>
                         </div>
                       </td>
-                      <td data-label="Asignatura">
+                      <td className="col-asignatura" data-label="Asignatura">
                         <div className="notas-subject-chip">
                           <BookOpenText size={15} />
                           <span>{row.Asignatura}</span>
                         </div>
                       </td>
-                      <td data-label="Calificación">
+                      <td className="col-calificacion" data-label="Calificación">
                         <span className={`grade-badge ${Number(row.CalificacionFinal) >= 90 ? 'is-high' : Number(row.CalificacionFinal) < 70 ? 'is-low' : ''}`}>
                           {row.CalificacionFinal}
                         </span>
                       </td>
-                      <td data-label="Catedrático">{row.Catedratico}</td>
+                      <td className="col-catedratico" data-label="Catedrático">{row.Catedratico}</td>
                       {(canEdit || canDelete) ? (
-                        <td className="row-actions" data-label="Acciones">
+                        <td className="col-acciones row-actions" data-label="Acciones">
                           {canEdit ? (
                             <button className="inline-button icon-button" type="button" onClick={() => setEditing({ ...row })}>
                               <PencilLine size={15} />

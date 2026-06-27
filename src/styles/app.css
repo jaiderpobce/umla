@@ -1016,67 +1016,76 @@ button {
 @media (max-width: 768px) {
   .notas-table {
     min-width: 0 !important;
+    width: 100% !important;
+    display: table !important;
+    border-collapse: collapse !important;
   }
 
   .notas-table-shell {
-    overflow-x: visible;
+    overflow-x: auto;
     max-height: none;
   }
 
   .notas-table thead {
-    display: none;
+    display: table-header-group !important;
   }
 
-  .notas-table, 
-  .notas-table tbody, 
-  .notas-table tr, 
-  .notas-table td {
-    display: block;
-    width: 100% !important;
-    box-sizing: border-box;
+  .notas-table tbody {
+    display: table-row-group !important;
   }
 
   .notas-table tr {
-    background: var(--panel-strong, #fffaf4);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 12px rgba(38, 26, 18, 0.04);
+    display: table-row !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
   }
 
+  .notas-table th,
   .notas-table td {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: right;
-    padding: 10px 0;
-    border-bottom: 1px dashed var(--line);
+    display: table-cell !important;
+    width: auto !important;
+    box-sizing: border-box;
+    padding: 10px 8px !important;
+    font-size: 0.82rem !important;
+    border-bottom: 1px solid var(--grid-cell-border, #eeeeee) !important;
     border-right: 0 !important;
+    vertical-align: middle !important;
+    text-align: left !important;
   }
 
-  .notas-table td:last-child {
-    border-bottom: 0;
-    padding-bottom: 0;
-    margin-top: 12px;
-    justify-content: center;
+  /* Ocultar columnas que no caben en móviles */
+  .notas-table .col-matricula,
+  .notas-table .col-alumno,
+  .notas-table .col-tetramestre,
+  .notas-table .col-catedratico,
+  .notas-table .col-acciones {
+    display: none !important;
+  }
+
+  /* Mostrar columnas principales: Asignatura y Calificación */
+  .notas-table .col-asignatura,
+  .notas-table .col-calificacion {
+    display: table-cell !important;
+  }
+
+  /* Alinear la calificación a la derecha en móvil para legibilidad */
+  .notas-table th.col-calificacion,
+  .notas-table td.col-calificacion {
+    text-align: right !important;
+  }
+
+  /* Estilos específicos de las chips en móviles */
+  .notas-table .notas-subject-chip {
+    padding: 0 6px !important;
+    min-height: 26px !important;
+    font-size: 0.78rem !important;
   }
 
   .notas-table td::before {
-    content: attr(data-label);
-    font-weight: 600;
-    color: var(--muted);
-    text-align: left;
-    font-size: 0.76rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .notas-table .row-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: none !important;
   }
 
   .notas-toolbar {
