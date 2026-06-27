@@ -1113,8 +1113,8 @@ button {
   }
 
   .notas-search {
-    min-height: 36px !important;
-    height: 36px !important;
+    min-height: 0 !important;
+    height: 100% !important;
     font-size: 0.88rem !important;
     padding: 0 !important;
     margin: 0 !important;
