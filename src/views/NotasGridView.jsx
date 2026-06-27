@@ -246,37 +246,37 @@ export function NotasGridView({ dataController, permissions }) {
                 <tbody>
                   {rows.map((row) => (
                     <tr key={row.id}>
-                      <td>
+                      <td data-label="Matrícula">
                         <div className="notas-cell-stack">
                           <strong>{row.Matricula}</strong>
                           <span>ID {row.id}</span>
                         </div>
                       </td>
-                      <td>
+                      <td data-label="Alumno">
                         <div className="notas-cell-stack">
                           <strong>{[row.Nombre, row.APaterno, row.AMaterno].filter(Boolean).join(' ')}</strong>
                           <span>{row.Email}</span>
                         </div>
                       </td>
-                      <td>
+                      <td data-label="Tetramestre">
                         <div className="notas-meta-chip">
                           <span>{row.Tetramestre || 'N/D'}</span>
                         </div>
                       </td>
-                      <td>
+                      <td data-label="Asignatura">
                         <div className="notas-subject-chip">
                           <BookOpenText size={15} />
                           <span>{row.Asignatura}</span>
                         </div>
                       </td>
-                      <td>
+                      <td data-label="Calificación">
                         <span className={`grade-badge ${Number(row.CalificacionFinal) >= 90 ? 'is-high' : Number(row.CalificacionFinal) < 70 ? 'is-low' : ''}`}>
                           {row.CalificacionFinal}
                         </span>
                       </td>
-                      <td>{row.Catedratico}</td>
+                      <td data-label="Catedrático">{row.Catedratico}</td>
                       {(canEdit || canDelete) ? (
-                        <td className="row-actions">
+                        <td className="row-actions" data-label="Acciones">
                           {canEdit ? (
                             <button className="inline-button icon-button" type="button" onClick={() => setEditing({ ...row })}>
                               <PencilLine size={15} />
