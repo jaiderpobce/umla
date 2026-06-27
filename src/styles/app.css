@@ -2139,15 +2139,21 @@ button {
   .sidebar-backdrop.is-visible,
   .menu-toggle {
     display: inline-block;
+    margin-bottom: 0;
   }
 
   .topbar {
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+    margin-bottom: 20px;
   }
 
   .role-switcher {
-    width: 100%;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 8px;
   }
 
   .hero-card {
@@ -2164,5 +2170,27 @@ button {
   .metric-card,
   .info-card {
     border-radius: 22px;
+  }
+
+  .role-switcher {
+    padding: 6px 10px;
+    border-radius: 14px;
+  }
+
+  .role-switcher .user-caption {
+    display: none;
+  }
+
+  .role-badge {
+    min-height: 26px;
+    padding: 0 8px;
+    font-size: 0.75rem;
+  }
+
+  .logout-button {
+    min-height: 28px;
+    padding: 0 10px;
+    font-size: 0.75rem;
+    border-radius: 999px;
   }
 }
