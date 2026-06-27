@@ -463,6 +463,10 @@ button {
   display: grid;
   place-items: center;
   padding: 24px;
+  background-image: linear-gradient(rgba(17, 26, 35, 0.2), rgba(17, 26, 35, 0.45)), url('../../public/branding/backgrounds/university_system_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .login-card {
@@ -472,6 +476,8 @@ button {
   border-radius: 32px;
   background: var(--panel);
   box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .login-brand {

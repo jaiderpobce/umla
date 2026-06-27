@@ -12,26 +12,10 @@ const metricsByModule = {
     { label: 'Clave única', value: 'Matrícula + Asignatura', trend: 'sin duplicados' },
   ],
   notas: [],
-  usuarios: [
-    { label: 'Nuevas cuentas', value: '42', trend: '+12%' },
-    { label: 'Pendientes', value: '9', trend: '-3' },
-    { label: 'Suspendidos', value: '5', trend: '0' },
-  ],
-  roles: [
-    { label: 'Roles activos', value: '7', trend: '+1' },
-    { label: 'Permisos críticos', value: '13', trend: '+4%' },
-    { label: 'Asignaciones', value: '216', trend: '+17%' },
-  ],
-  modulos: [
-    { label: 'Módulos publicados', value: '11', trend: '+2' },
-    { label: 'Vistas protegidas', value: '37', trend: '+5' },
-    { label: 'Cobertura móvil', value: '98%', trend: '+3%' },
-  ],
-  auditoria: [
-    { label: 'Eventos hoy', value: '324', trend: '+14%' },
-    { label: 'Exportaciones', value: '18', trend: '+6' },
-    { label: 'Hallazgos', value: '3', trend: '-2' },
-  ],
+  usuarios: [],
+  roles: [],
+  modulos: [],
+  auditoria: [],
 };
 
 export class NavigationModel {
