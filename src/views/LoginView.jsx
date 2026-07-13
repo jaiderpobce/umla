@@ -3,8 +3,8 @@ import { BrandLogo } from './BrandLogo.jsx';
 
 export function LoginView({ branding, onLogin }) {
   const [form, setForm] = useState({
-    email: 'admin@umla.local',
-    password: 'password',
+    email: '',
+    password: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);

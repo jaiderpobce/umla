@@ -1467,8 +1467,48 @@ button {
   flex-wrap: wrap;
 }
 
+.confirm-progress {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.confirm-progress__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.94rem;
+  color: var(--muted);
+}
+
+.confirm-progress__bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(22, 122, 127, 0.16);
+  overflow: hidden;
+  position: relative;
+}
+
+.confirm-progress__fill {
+  width: 40%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #167a7f, #5f548c);
+  animation: confirm-progress-slide 1.4s ease-in-out infinite;
+}
+
+@keyframes confirm-progress-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(25%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 .admin-message {
-  position: fixed;
   top: 24px;
   right: 24px;
   z-index: 9999;

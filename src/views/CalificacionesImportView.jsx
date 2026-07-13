@@ -269,6 +269,14 @@ export function CalificacionesImportView({ dataController, permissions }) {
                 {confirming ? 'Confirmando...' : 'Confirmar importación'}
               </button>
             </div>
+            {confirming ? (
+              <div className="confirm-progress">
+                <div className="confirm-progress__label">Importación en curso, espera unos segundos...</div>
+                <div className="confirm-progress__bar" role="progressbar" aria-busy="true" aria-label="Importación en curso">
+                  <div className="confirm-progress__fill" />
+                </div>
+              </div>
+            ) : null}
           </form>
 
           {!canUpload ? <MessageBlock tone="warning" message="Tu rol puede visualizar el módulo, pero no cargar archivos." /> : null}
