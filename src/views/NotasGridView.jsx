@@ -177,6 +177,9 @@ export function NotasGridView({ dataController, permissions }) {
 
   return (
     <section className="notas-panel">
+      {message ? <p className="admin-message is-success">{message}</p> : null}
+      {error ? <p className="admin-message is-error">{error}</p> : null}
+
       <article className="info-card notas-card">
         <div className="notas-toolbar-head">
           <div>
@@ -224,9 +227,6 @@ export function NotasGridView({ dataController, permissions }) {
             </label>
           ) : null}
         </form>
-
-        {message ? <p className="admin-message is-success">{message}</p> : null}
-        {error ? <p className="admin-message is-error">{error}</p> : null}
 
         {loading ? <p className="empty-inline">Cargando notas...</p> : (
           <>
