@@ -142,6 +142,16 @@ class RbacSeeder extends Seeder
                 ],
             ],
             [
+                'name' => 'Finanzas',
+                'slug' => 'finanzas',
+                'icon' => 'FN',
+                'description' => 'Gestión de cobranza, comprobantes y recibos',
+                'views' => [
+                    ['name' => 'Gestión de Cobros', 'slug' => 'gestion', 'route' => '/finanzas/gestion', 'component' => 'FinanceAdmin', 'description' => 'Emisión de causados y validación de pagos'],
+                    ['name' => 'Mis Pagos', 'slug' => 'mis-pagos', 'route' => '/finanzas/mis-pagos', 'component' => 'FinanceStudent', 'description' => 'Consulta de saldo y reporte de comprobantes'],
+                ],
+            ],
+            [
                 'name' => 'Auditoría',
                 'slug' => 'auditoria',
                 'icon' => 'AU',
@@ -209,7 +219,7 @@ class RbacSeeder extends Seeder
     {
         $definitions = [
             'super-admin' => [
-                'modules' => ['dashboard', 'calificaciones', 'notas', 'usuarios', 'roles', 'modulos', 'institucion', 'auditoria'],
+                'modules' => ['dashboard', 'calificaciones', 'notas', 'usuarios', 'roles', 'modulos', 'institucion', 'finanzas', 'auditoria'],
                 'views' => [
                     'dashboard.overview' => ['view'],
                     'calificaciones.importacion' => ['view', 'create'],
@@ -219,16 +229,19 @@ class RbacSeeder extends Seeder
                     'roles.permisos' => ['view', 'create', 'edit', 'delete'],
                     'modulos.catalogo' => ['view', 'create', 'edit'],
                     'institucion.branding' => ['view', 'edit'],
+                    'finanzas.gestion' => ['view', 'create', 'edit'],
+                    'finanzas.mis-pagos' => ['view', 'create'],
                     'auditoria.eventos' => ['view', 'export'],
                 ],
             ],
             'coordinador' => [
-                'modules' => ['dashboard', 'calificaciones', 'usuarios', 'modulos'],
+                'modules' => ['dashboard', 'calificaciones', 'usuarios', 'modulos', 'finanzas'],
                 'views' => [
                     'dashboard.overview' => ['view'],
                     'calificaciones.importacion' => ['view', 'create'],
                     'usuarios.listado' => ['view', 'create', 'edit'],
                     'modulos.catalogo' => ['view'],
+                    'finanzas.gestion' => ['view', 'create', 'edit'],
                 ],
             ],
             'docente' => [
@@ -247,10 +260,11 @@ class RbacSeeder extends Seeder
                 ],
             ],
             'estudiante' => [
-                'modules' => ['dashboard', 'notas'],
+                'modules' => ['dashboard', 'notas', 'finanzas'],
                 'views' => [
                     'dashboard.overview' => ['view'],
                     'notas.grid' => ['view'],
+                    'finanzas.mis-pagos' => ['view', 'create'],
                 ],
             ],
             'consulta' => [

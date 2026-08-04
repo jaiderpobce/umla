@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\PermissionAdminController;
 use App\Http\Controllers\Api\RoleAdminController;
 use App\Http\Controllers\Api\ModuleAdminController;
 use App\Http\Controllers\Api\UserAdminController;
+use App\Http\Controllers\Api\FinanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,6 +70,14 @@ Route::prefix('api')->group(function () {
         Route::get('/notas', [NotasController::class, 'index']);
         Route::put('/notas/{notaId}', [NotasController::class, 'update']);
         Route::delete('/notas/{notaId}', [NotasController::class, 'destroy']);
+
+        // Rutas del Módulo de Finanzas
+        Route::get('/finanzas/admin', [FinanceController::class, 'adminIndex']);
+        Route::post('/finanzas/charges/generate-by-career', [FinanceController::class, 'generateByCareer']);
+        Route::get('/finanzas/student', [FinanceController::class, 'studentIndex']);
+        Route::post('/finanzas/payments/report', [FinanceController::class, 'reportPayment']);
+        Route::post('/finanzas/payments/{id}/approve', [FinanceController::class, 'approvePayment']);
+        Route::post('/finanzas/payments/{id}/reject', [FinanceController::class, 'rejectPayment']);
 
         Route::prefix('/admin')->group(function () {
             Route::get('/bootstrap', [AdminBootstrapController::class, 'index']);

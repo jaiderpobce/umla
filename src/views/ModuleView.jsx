@@ -2,6 +2,8 @@ import { AdminCrudView } from './AdminCrudView.jsx';
 import { CalificacionesImportView } from './CalificacionesImportView.jsx';
 import { InstitutionSettingsView } from './InstitutionSettingsView.jsx';
 import { NotasGridView } from './NotasGridView.jsx';
+import { FinanceAdminView } from './FinanceAdminView.jsx';
+import { FinanceStudentView } from './FinanceStudentView.jsx';
 
 function PermissionChip({ permission }) {
   return <span className="permission-chip">{permission}</span>;
@@ -25,10 +27,14 @@ export function ModuleView({ state, metrics, dataController, branding, onBrandin
   const isCalificacionesImport = view.component === 'GradesImport';
   const isNotasGrid = view.component === 'NotesGrid';
   const isInstitutionSettings = view.component === 'InstitutionSettings';
-  const hideModuleHeader = ['dashboard', 'usuarios', 'roles', 'modulos', 'auditoria', 'institucion'].includes(module.slug)
+  const isFinanceAdmin = view.component === 'FinanceAdmin';
+  const isFinanceStudent = view.component === 'FinanceStudent';
+  const hideModuleHeader = ['dashboard', 'usuarios', 'roles', 'modulos', 'auditoria', 'institucion', 'finanzas'].includes(module.slug)
     || isNotasGrid
     || isCalificacionesImport
-    || isInstitutionSettings;
+    || isInstitutionSettings
+    || isFinanceAdmin
+    || isFinanceStudent;
 
   return (
     <section className="content-panel">
@@ -71,6 +77,10 @@ export function ModuleView({ state, metrics, dataController, branding, onBrandin
           onBrandingChange={onBrandingChange}
           permissions={view.permissions}
         />
+      ) : isFinanceAdmin ? (
+        <FinanceAdminView />
+      ) : isFinanceStudent ? (
+        <FinanceStudentView />
       ) : (
         <div className="section-grid">
           <article className="info-card">
