@@ -7,6 +7,7 @@ import { TopbarView } from './views/TopbarView.jsx';
 import { ModuleView } from './views/ModuleView.jsx';
 import { LoginView } from './views/LoginView.jsx';
 import { ChangePasswordModal } from './views/ChangePasswordModal.jsx';
+import { ProfileView } from './views/ProfileView.jsx';
 
 const authController = new AuthController();
 const dashboardController = new DashboardController();
@@ -239,6 +240,7 @@ export default function App() {
           <Route element={<ProtectedRoute isAuthenticated={Boolean(user)} isBooting={booting} />}>
             <Route element={<AppLayout />}>
               <Route path="/" element={<DefaultRoute />} />
+              <Route path="/profile" element={<ProfileView user={user} />} />
               <Route path="/:moduleSlug/:viewSlug" element={<ModuleRoute />} />
             </Route>
           </Route>

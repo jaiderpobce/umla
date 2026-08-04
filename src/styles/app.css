@@ -446,6 +446,104 @@ button {
   cursor: pointer;
 }
 
+.topbar-user-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.user-menu-trigger {
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.user-avatar,
+.user-menu-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--line);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+}
+
+.user-avatar img,
+.user-menu-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 260px;
+  padding: 16px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid rgba(17, 26, 35, 0.08);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+}
+
+.user-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.user-menu-header strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+.user-menu-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.user-menu-items {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.user-menu-item {
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  background: #f8f9fb;
+  border: 1px solid rgba(17, 26, 35, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.user-menu-item:hover {
+  background: #eef2f6;
+}
+
+.user-menu-footer {
+  display: flex;
+  justify-content: stretch;
+}
+
+.user-menu-footer .logout-button {
+  width: 100%;
+}
+
 .empty-state {
   display: grid;
   place-items: center;
@@ -467,6 +565,89 @@ button {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.profile-page {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 120px);
+  padding: 24px 0;
+}
+
+.profile-card {
+  width: min(100%, 560px);
+  display: grid;
+  gap: 24px;
+  padding: 32px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(17, 26, 35, 0.08);
+  box-shadow: 0 20px 45px rgba(9, 30, 66, 0.08);
+}
+
+.profile-avatar {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+  background: var(--line);
+  color: var(--text);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-details {
+  text-align: center;
+}
+
+.profile-details h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.profile-details p {
+  margin: 10px auto 0;
+  max-width: 420px;
+  color: var(--muted);
+}
+
+.profile-meta {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.profile-meta div {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid rgba(17, 26, 35, 0.08);
+  border-radius: 18px;
+  background: #f9fafb;
+}
+
+.profile-meta label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.profile-meta p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .login-card {
