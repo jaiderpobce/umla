@@ -166,7 +166,7 @@ export function FinanceAdminView() {
   }
 
   function openDocumentViewer(path) {
-    setViewerUrl(`/storage/${path}`);
+    setViewerUrl(`/umla-api/storage/${path}`);
     setShowViewerModal(true);
   }
 
