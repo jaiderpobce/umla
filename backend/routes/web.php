@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\RoleAdminController;
 use App\Http\Controllers\Api\ModuleAdminController;
 use App\Http\Controllers\Api\UserAdminController;
 use App\Http\Controllers\Api\FinanceController;
+use App\Http\Controllers\Api\ActiveStudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,6 +71,9 @@ Route::prefix('api')->group(function () {
         Route::get('/notas', [NotasController::class, 'index']);
         Route::put('/notas/{notaId}', [NotasController::class, 'update']);
         Route::delete('/notas/{notaId}', [NotasController::class, 'destroy']);
+        Route::get('/notas/reportes/detalle/options', [NotasController::class, 'reportOptions']);
+        Route::get('/notas/reportes/detalle', [NotasController::class, 'reportDetail']);
+        Route::get('/notas/reportes/detalle/pdf', [NotasController::class, 'reportPdf']);
 
         // Rutas del Módulo de Finanzas
         Route::get('/finanzas/admin', [FinanceController::class, 'adminIndex']);
@@ -78,6 +82,12 @@ Route::prefix('api')->group(function () {
         Route::post('/finanzas/payments/report', [FinanceController::class, 'reportPayment']);
         Route::post('/finanzas/payments/{id}/approve', [FinanceController::class, 'approvePayment']);
         Route::post('/finanzas/payments/{id}/reject', [FinanceController::class, 'rejectPayment']);
+
+        // Rutas del Módulo de Alumnos Activos
+        Route::get('/alumnos-activos', [ActiveStudentController::class, 'index']);
+        Route::post('/alumnos-activos/preview', [ActiveStudentController::class, 'preview']);
+        Route::post('/alumnos-activos/confirm', [ActiveStudentController::class, 'store']);
+        Route::get('/alumnos-activos/invalid-csv/{token}', [ActiveStudentController::class, 'downloadInvalidCsv']);
 
         Route::prefix('/admin')->group(function () {
             Route::get('/bootstrap', [AdminBootstrapController::class, 'index']);

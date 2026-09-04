@@ -9,6 +9,9 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
+        "mpdf/mpdf": "^8.0.17",
+        "mpdf/qrcode": "^1.1",
+        "psr/log": "^1.1",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5"
     },

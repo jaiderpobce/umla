@@ -49,7 +49,8 @@ class FinanceController extends Controller
 
     public function studentIndex(Request $request): JsonResponse
     {
-        $data = $this->financeService->getStudentData($request->user()->id);
+        $filters = $request->only(['status', 'search', 'per_page', 'charges_page', 'receipts_page']);
+        $data = $this->financeService->getStudentData($request->user()->id, $filters);
 
         return response()->json([
             'status' => 'success',

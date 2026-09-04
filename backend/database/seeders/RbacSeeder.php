@@ -101,7 +101,8 @@ class RbacSeeder extends Seeder
                 'icon' => 'NT',
                 'description' => 'Consulta y gestión de calificaciones por usuario',
                 'views' => [
-                    ['name' => 'Grid', 'slug' => 'grid', 'route' => '/notas/grid', 'component' => 'NotesGrid', 'description' => 'Consulta paginada de notas'],
+                    ['name' => 'Listado de notas', 'slug' => 'grid', 'route' => '/notas/grid', 'component' => 'NotesGrid', 'description' => 'Consulta paginada de notas'],
+                    ['name' => 'Notas detalladas', 'slug' => 'reportes', 'route' => '/notas/reportes', 'component' => 'NotesReports', 'description' => 'Detalle histórico de notas por alumno'],
                 ],
             ],
             [
@@ -235,10 +236,11 @@ class RbacSeeder extends Seeder
                 ],
             ],
             'coordinador' => [
-                'modules' => ['dashboard', 'calificaciones', 'usuarios', 'modulos', 'finanzas'],
+                'modules' => ['dashboard', 'calificaciones', 'notas', 'usuarios', 'modulos', 'finanzas'],
                 'views' => [
                     'dashboard.overview' => ['view'],
                     'calificaciones.importacion' => ['view', 'create'],
+                    'notas.reportes' => ['view', 'export'],
                     'usuarios.listado' => ['view', 'create', 'edit'],
                     'modulos.catalogo' => ['view'],
                     'finanzas.gestion' => ['view', 'create', 'edit'],
@@ -257,6 +259,7 @@ class RbacSeeder extends Seeder
                     'dashboard.overview' => ['view'],
                     'calificaciones.importacion' => ['view', 'create'],
                     'notas.grid' => ['view', 'edit', 'delete'],
+                    'notas.reportes' => ['view', 'export'],
                 ],
             ],
             'estudiante' => [
@@ -264,6 +267,7 @@ class RbacSeeder extends Seeder
                 'views' => [
                     'dashboard.overview' => ['view'],
                     'notas.grid' => ['view'],
+                    'notas.reportes' => ['view'],
                     'finanzas.mis-pagos' => ['view', 'create'],
                 ],
             ],

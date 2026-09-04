@@ -11,6 +11,15 @@ export function FinanceStudentView() {
   const [charges, setCharges] = useState([]);
   const [receipts, setReceipts] = useState([]);
 
+  // Pagination & Filters
+  const [activeTab, setActiveTab] = useState('charges'); // 'charges' | 'receipts'
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [chargesPage, setChargesPage] = useState(1);
+  const [receiptsPage, setReceiptsPage] = useState(1);
+  const [chargesMeta, setChargesMeta] = useState({});
+  const [receiptsMeta, setReceiptsMeta] = useState({});
+
   // Modales
   const [selectedCharge, setSelectedCharge] = useState(null);
   const [selectedReceipt, setSelectedReceipt] = useState(null);
@@ -28,16 +37,35 @@ export function FinanceStudentView() {
 
   useEffect(() => {
     loadData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [statusFilter, chargesPage, receiptsPage]);
 
   async function loadData() {
     try {
       setLoading(true);
       setError('');
-      const res = await financeModel.getStudentData();
+      const res = await financeModel.getStudentData({
+        search,
+        status: statusFilter,
+        charges_page: chargesPage,
+        receipts_page: receiptsPage,
+        per_page: 10,
+      });
+
       if (res?.status === 'success' && res.data) {
-        setCharges(res.data.charges || []);
-        setReceipts(res.data.receipts || []);
+        setCharges(res.data.charges?.data || []);
+        setChargesMeta({
+          current_page: res.data.charges?.current_page || 1,
+          last_page: res.data.charges?.last_page || 1,
+          total: res.data.charges?.total || 0,
+        });
+
+        setReceipts(res.data.receipts?.data || []);
+        setReceiptsMeta({
+          current_page: res.data.receipts?.current_page || 1,
+          last_page: res.data.receipts?.last_page || 1,
+          total: res.data.receipts?.total || 0,
+        });
       }
     } catch (err) {
       setError(err.message || 'Error al cargar tu estado de cuenta');
@@ -105,6 +133,31 @@ export function FinanceStudentView() {
     }
   }
 
+  function renderPagination(meta, setPage) {
+    if (!meta || meta.last_page <= 1) return null;
+    return (
+      <div className="pagination-controls" style={{ marginTop: '16px', display: 'flex', gap: '8px', justifyContent: 'flex-end', alignItems: 'center' }}>
+        <button 
+          className="btn btn-sm btn-secondary" 
+          disabled={meta.current_page === 1}
+          onClick={() => setPage(meta.current_page - 1)}
+        >
+          &laquo; Anterior
+        </button>
+        <span style={{ fontSize: '0.9rem' }}>
+          Página <strong>{meta.current_page}</strong> de {meta.last_page} (Total: {meta.total})
+        </span>
+        <button 
+          className="btn btn-sm btn-secondary" 
+          disabled={meta.current_page === meta.last_page}
+          onClick={() => setPage(meta.current_page + 1)}
+        >
+          Siguiente &raquo;
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="finance-container">
       <div className="finance-header">
@@ -117,94 +170,172 @@ export function FinanceStudentView() {
       {error ? <div className="alert alert-error">{error}</div> : null}
       {successMsg ? <div className="alert alert-success">{successMsg}</div> : null}
 
+      {/* Filters & Search */}
+      <div className="table-filters" style={{ marginBottom: '16px', padding: '16px', background: '#fff', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+        <input
+          type="text"
+          placeholder="Buscar por concepto o código..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && loadData()}
+          className="search-input"
+          style={{ minWidth: '250px' }}
+        />
+        {activeTab === 'charges' && (
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="select-input"
+          >
+            <option value="">Todos los estatus</option>
+            <option value="pendiente">Pendientes</option>
+            <option value="en_revision">En Revisión</option>
+            <option value="pagado">Pagados</option>
+            <option value="rechazado">Rechazados</option>
+          </select>
+        )}
+        <button className="btn btn-primary" onClick={loadData}>Buscar</button>
+      </div>
+
+      {/* Tabs */}
+      <div className="finance-tabs">
+        <button
+          type="button"
+          className={`tab-item ${activeTab === 'charges' ? 'active' : ''}`}
+          onClick={() => setActiveTab('charges')}
+        >
+          Mis Conceptos de Cobro ({chargesMeta.total || 0})
+        </button>
+        <button
+          type="button"
+          className={`tab-item ${activeTab === 'receipts' ? 'active' : ''}`}
+          onClick={() => setActiveTab('receipts')}
+        >
+          Mis Recibos Oficiales ({receiptsMeta.total || 0})
+        </button>
+      </div>
+
       {loading ? (
         <div className="loading-state">Cargando tus datos financieros...</div>
+      ) : activeTab === 'charges' ? (
+        <div className="charges-table-container">
+          <table className="custom-table">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Concepto / Descripción</th>
+                <th>Monto Total</th>
+                <th>Saldo Pendiente</th>
+                <th>Fecha Límite</th>
+                <th>Estatus</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {charges.length === 0 ? (
+                <tr>
+                  <td colSpan="7" style={{ textAlign: 'center', padding: '24px' }}>
+                    No tienes conceptos de cobro registrados.
+                  </td>
+                </tr>
+              ) : (
+                charges.map((charge) => {
+                  const latestPayment = charge.payments?.[0];
+                  return (
+                    <tr key={charge.id}>
+                      <td><code>{charge.charge_code}</code></td>
+                      <td>
+                        <strong>{charge.concept}</strong>
+                        {charge.description ? (
+                          <div style={{ fontSize: '0.85em', color: '#666' }}>{charge.description}</div>
+                        ) : null}
+                        {latestPayment?.review_notes && charge.status === 'pendiente' ? (
+                          <div style={{ fontSize: '0.85em', color: '#dc3545', marginTop: '4px' }}>
+                            <strong>Motivo rechazo:</strong> {latestPayment.review_notes}
+                          </div>
+                        ) : null}
+                      </td>
+                      <td>${Number(charge.amount_total).toFixed(2)} MXN</td>
+                      <td style={{ color: charge.balance_due > 0 ? '#dc3545' : '#198754', fontWeight: 'bold' }}>
+                        ${Number(charge.balance_due).toFixed(2)} MXN
+                      </td>
+                      <td>{charge.due_at || 'Sin fecha'}</td>
+                      <td>{getStatusBadge(charge.status)}</td>
+                      <td>
+                        {charge.status === 'pendiente' ? (
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-primary"
+                            onClick={() => handleOpenUploadModal(charge)}
+                          >
+                            ⬆ Comprobante
+                          </button>
+                        ) : charge.status === 'en_revision' ? (
+                          <span style={{ fontSize: '0.85em', color: '#6c757d' }}>
+                            En revisión
+                          </span>
+                        ) : (
+                          <span style={{ fontSize: '0.85em', color: '#198754', fontWeight: 'bold' }}>
+                            Completado
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+          {renderPagination(chargesMeta, setChargesPage)}
+        </div>
       ) : (
-        <div className="student-finance-grid">
-          {/* Columna Izquierda: Mis Cargos / Adeudos */}
-          <div className="finance-section">
-            <h3>Mis Conceptos de Cobro</h3>
-
-            {charges.length === 0 ? (
-              <div className="empty-state">No tienes cargos registrados en este momento.</div>
-            ) : (
-              charges.map((charge) => {
-                const latestPayment = charge.payments?.[0];
-                return (
-                  <div key={charge.id} className="student-charge-card">
-                    <div className="charge-card-header">
-                      <div>
-                        <h4>{charge.concept}</h4>
-                        <span className="charge-code">Código: {charge.charge_code}</span>
-                      </div>
-                      {getStatusBadge(charge.status)}
-                    </div>
-
-                    <div className="charge-card-details">
-                      <p><strong>Monto Total:</strong> ${Number(charge.amount_total).toFixed(2)} MXN</p>
-                      <p><strong>Saldo Pendiente:</strong> ${Number(charge.balance_due).toFixed(2)} MXN</p>
-                      <p><strong>Fecha Límite:</strong> {charge.due_at || 'Sin fecha'}</p>
-
-                      {latestPayment?.review_notes && charge.status === 'pendiente' ? (
-                        <div className="rejection-box">
-                          <strong>Motivo de rechazo anterior:</strong> {latestPayment.review_notes}
-                        </div>
-                      ) : null}
-                    </div>
-
-                    <div className="charge-card-actions">
-                      {charge.status === 'pendiente' ? (
-                        <button
-                          type="button"
-                          className="btn btn-primary"
-                          onClick={() => handleOpenUploadModal(charge)}
-                        >
-                          ⬆ Adjuntar Comprobante de Pago
-                        </button>
-                      ) : charge.status === 'en_revision' ? (
-                        <span className="info-text">
-                          Comprobante enviado el {latestPayment?.payment_date}. Esperando validación del administrador.
-                        </span>
-                      ) : (
-                        <span className="success-text">Pago validado y completado.</span>
-                      )}
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-
-          {/* Columna Derecha: Recibos Oficiales Emitidos */}
-          <div className="finance-section">
-            <h3>Mis Recibos Oficiales</h3>
-
-            {receipts.length === 0 ? (
-              <div className="empty-state">Aún no cuentas con recibos oficiales emitidos.</div>
-            ) : (
-              receipts.map((receipt) => (
-                <div key={receipt.id} className="receipt-card">
-                  <div className="receipt-card-header">
-                    <div>
-                      <strong>Folio: {receipt.folio}</strong>
-                      <div className="receipt-date">Emitido: {receipt.generated_at ? new Date(receipt.generated_at).toLocaleDateString() : 'Hoy'}</div>
-                    </div>
-                    <span className="receipt-amount">${Number(receipt.amount).toFixed(2)} MXN</span>
-                  </div>
-
-                  <p className="receipt-concept">{receipt.concept} ({receipt.period_label})</p>
-
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-outline"
-                    onClick={() => setSelectedReceipt(receipt)}
-                  >
-                    🔍 Ver Recibo de Pago
-                  </button>
-                </div>
-              ))
-            )}
-          </div>
+        <div className="charges-table-container">
+          <table className="custom-table">
+            <thead>
+              <tr>
+                <th>Folio Recibo</th>
+                <th>Concepto / Período</th>
+                <th>Monto Pagado</th>
+                <th>Método de Pago</th>
+                <th>Fecha Emisión</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {receipts.length === 0 ? (
+                <tr>
+                  <td colSpan="6" style={{ textAlign: 'center', padding: '24px' }}>
+                    Aún no cuentas con recibos oficiales emitidos.
+                  </td>
+                </tr>
+              ) : (
+                receipts.map((receipt) => (
+                  <tr key={receipt.id}>
+                    <td><code>{receipt.folio}</code></td>
+                    <td>
+                      <strong>{receipt.concept}</strong>
+                      <div style={{ fontSize: '0.85em', color: '#666' }}>Período: {receipt.period_label}</div>
+                    </td>
+                    <td style={{ color: '#198754', fontWeight: 'bold' }}>
+                      ${Number(receipt.amount).toFixed(2)} MXN
+                    </td>
+                    <td>{receipt.payment_method?.toUpperCase() || 'N/A'}</td>
+                    <td>{receipt.generated_at ? new Date(receipt.generated_at).toLocaleDateString() : 'Hoy'}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline"
+                        onClick={() => setSelectedReceipt(receipt)}
+                      >
+                        🔍 Ver Recibo
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+          {renderPagination(receiptsMeta, setReceiptsPage)}
         </div>
       )}
 

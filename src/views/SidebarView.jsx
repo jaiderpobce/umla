@@ -45,6 +45,7 @@ export function SidebarView({ branding, modules, activeModuleSlug, isOpen, onClo
   const configurationActive = configurationModules.some((module) => module.slug === activeModuleSlug) || (configModule && activeModuleSlug === configModule.slug);
   
   const [configurationOpen, setConfigurationOpen] = useState(false);
+  const [notesOpen, setNotesOpen] = useState(true);
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -90,15 +91,23 @@ export function SidebarView({ branding, modules, activeModuleSlug, isOpen, onClo
             </button>
           ) : null}
 
-          {primaryModules.map((module) => (
-            <button
-              key={module.id}
-              className={`sidebar-link ${activeModuleSlug === module.slug ? 'is-active' : ''}`}
-              onClick={() => onModuleSelect(module.views[0]?.route || '/')}
-            >
-              <span className="sidebar-icon">
-                <ModuleIcon slug={module.slug} className="sidebar-icon-svg" />
-              </span>
+          {primaryModules.map((module) => module.slug === 'notas' && module.views.length > 1 ? (
+            <section key={module.id} className={`sidebar-group ${activeModuleSlug === module.slug ? 'is-active' : ''}`}>
+              <button className={`sidebar-link sidebar-group-toggle ${notesOpen ? 'is-open' : ''}`} onClick={() => setNotesOpen((current) => !current)}>
+                <span className="sidebar-icon"><ModuleIcon slug={module.slug} className="sidebar-icon-svg" /></span>
+                <span className="sidebar-group-copy"><strong>{moduleLabel(module)}</strong></span>
+                <span className="sidebar-group-caret" aria-hidden="true">{notesOpen ? '−' : '+'}</span>
+              </button>
+              {notesOpen ? <div className="sidebar-subnav">
+                {module.views.map((view) => <button key={view.id} className="sidebar-sublink" onClick={() => onModuleSelect(view.route)}>
+                  <span className="sidebar-subicon"><ModuleIcon slug={module.slug} className="sidebar-subicon-svg" /></span>
+                  <span>{view.name}</span>
+                </button>)}
+              </div> : null}
+            </section>
+          ) : (
+            <button key={module.id} className={`sidebar-link ${activeModuleSlug === module.slug ? 'is-active' : ''}`} onClick={() => onModuleSelect(module.views[0]?.route || '/')}>
+              <span className="sidebar-icon"><ModuleIcon slug={module.slug} className="sidebar-icon-svg" /></span>
               <span>{moduleLabel(module)}</span>
             </button>
           ))}

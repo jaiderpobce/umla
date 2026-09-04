@@ -27,4 +27,16 @@ export class NotasModel {
       method: 'DELETE',
     });
   }
+
+  async getReportOptions(career = '', matricula = '') {
+    const params = new URLSearchParams();
+    if (career) params.set('career', career);
+    if (matricula) params.set('matricula', matricula);
+    return apiRequest(`/umla-api/api/notas/reportes/detalle/options${params.toString() ? `?${params}` : ''}`);
+  }
+
+  async getReportDetail(career, matricula) {
+    const params = new URLSearchParams({ career, matricula });
+    return apiRequest(`/umla-api/api/notas/reportes/detalle?${params.toString()}`);
+  }
 }

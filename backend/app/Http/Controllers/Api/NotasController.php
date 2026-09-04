@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\RbacService;
+use App\Services\NotasReportService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,10 +14,41 @@ use Illuminate\Validation\Rule;
 class NotasController extends Controller
 {
     protected $rbacService;
+    protected $reportService;
 
-    public function __construct(RbacService $rbacService)
+    public function __construct(RbacService $rbacService, NotasReportService $reportService)
     {
         $this->rbacService = $rbacService;
+        $this->reportService = $reportService;
+    }
+
+    public function reportOptions(Request $request): JsonResponse
+    {
+        $this->authorizeReport($request);
+        return response()->json($this->reportService->options($request->user(), trim((string) $request->query('career', '')) ?: null, trim((string) $request->query('matricula', '')) ?: null));
+    }
+
+    public function reportDetail(Request $request): JsonResponse
+    {
+        $this->authorizeReport($request);
+        $validated = $request->validate(['career' => ['required', 'string', 'max:255'], 'matricula' => ['required', 'string', 'max:250']]);
+        return response()->json($this->reportService->detail($request->user(), $validated['career'], $validated['matricula']));
+    }
+
+    public function reportPdf(Request $request)
+    {
+        $this->authorizeReport($request, 'export');
+        $validated = $request->validate(['career' => ['required', 'string', 'max:255'], 'matricula' => ['required', 'string', 'max:250']]);
+        $pdf = $this->reportService->pdf($request->user(), $validated['career'], $validated['matricula']);
+        return response($pdf, 200, ['Content-Type' => 'application/pdf', 'Content-Disposition' => 'inline; filename="detalle-de-notas-' . $validated['matricula'] . '.pdf"']);
+    }
+
+    protected function authorizeReport(Request $request, string $permission = 'view'): void
+    {
+        $payload = $this->rbacService->moduleViewFor($request->user(), 'notas', 'reportes');
+        if (!$payload || !in_array($permission, $payload['view']['permissions'], true)) {
+            abort(403, 'No tienes permisos para consultar reportes de notas.');
+        }
     }
 
     public function index(Request $request): JsonResponse

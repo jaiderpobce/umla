@@ -208,16 +208,46 @@ class FinanceService
         ];
     }
 
-    public function getStudentData(int $studentUserId): array
+    public function getStudentData(int $studentUserId, array $filters = []): array
     {
-        $charges = FinanceCharge::with(['period', 'payments.receipt'])
-            ->where('user_id', $studentUserId)
-            ->orderBy('id', 'desc')
-            ->get();
+        $chargesQuery = FinanceCharge::with(['period', 'payments.receipt'])
+            ->where('user_id', $studentUserId);
 
-        $receipts = FinanceReceipt::where('student_user_id', $studentUserId)
-            ->orderBy('id', 'desc')
-            ->get();
+        if (!empty($filters['status'])) {
+            $chargesQuery->where('status', $filters['status']);
+        }
+
+        if (!empty($filters['search'])) {
+            $search = $filters['search'];
+            $chargesQuery->where(function ($q) use ($search) {
+                $q->where('concept', 'like', "%{$search}%")
+                  ->orWhere('charge_code', 'like', "%{$search}%");
+            });
+        }
+
+        $charges = $chargesQuery->orderBy('id', 'desc')->paginate(
+            $filters['per_page'] ?? 15,
+            ['*'],
+            'charges_page',
+            $filters['charges_page'] ?? 1
+        );
+
+        $receiptsQuery = FinanceReceipt::where('student_user_id', $studentUserId);
+
+        if (!empty($filters['search'])) {
+            $search = $filters['search'];
+            $receiptsQuery->where(function ($q) use ($search) {
+                $q->where('concept', 'like', "%{$search}%")
+                  ->orWhere('folio', 'like', "%{$search}%");
+            });
+        }
+
+        $receipts = $receiptsQuery->orderBy('id', 'desc')->paginate(
+            $filters['per_page'] ?? 15,
+            ['*'],
+            'receipts_page',
+            $filters['receipts_page'] ?? 1
+        );
 
         return [
             'charges' => $charges,

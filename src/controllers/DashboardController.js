@@ -136,4 +136,12 @@ export class DashboardController {
   async deleteNota(notaId) {
     return this.notasModel.deleteNota(notaId);
   }
+
+  async getNotasReportOptions(career, matricula) {
+    return this.notasModel.getReportOptions(career, matricula);
+  }
+
+  async getNotasReportDetail(career, matricula) {
+    return this.notasModel.getReportDetail(career, matricula);
+  }
 }

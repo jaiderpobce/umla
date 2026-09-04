@@ -21,8 +21,16 @@ export class FinanceModel {
     });
   }
 
-  async getStudentData() {
-    return apiRequest('/umla-api/api/finanzas/student');
+  async getStudentData(filters = {}) {
+    const params = new URLSearchParams();
+    if (filters.status) params.append('status', filters.status);
+    if (filters.search) params.append('search', filters.search);
+    if (filters.per_page) params.append('per_page', filters.per_page);
+    if (filters.charges_page) params.append('charges_page', filters.charges_page);
+    if (filters.receipts_page) params.append('receipts_page', filters.receipts_page);
+
+    const queryString = params.toString() ? `?${params.toString()}` : '';
+    return apiRequest(`/umla-api/api/finanzas/student${queryString}`);
   }
 
   async reportPayment(formData) {

@@ -2,8 +2,10 @@ import { AdminCrudView } from './AdminCrudView.jsx';
 import { CalificacionesImportView } from './CalificacionesImportView.jsx';
 import { InstitutionSettingsView } from './InstitutionSettingsView.jsx';
 import { NotasGridView } from './NotasGridView.jsx';
+import { NotasReportsView } from './NotasReportsView.jsx';
 import { FinanceAdminView } from './FinanceAdminView.jsx';
 import { FinanceStudentView } from './FinanceStudentView.jsx';
+import { ActiveStudentAdminView } from './ActiveStudentAdminView.jsx';
 
 function PermissionChip({ permission }) {
   return <span className="permission-chip">{permission}</span>;
@@ -26,15 +28,19 @@ export function ModuleView({ state, metrics, dataController, branding, onBrandin
   const isAdminCrudModule = ['usuarios', 'roles', 'modulos', 'configuracion'].includes(module.slug);
   const isCalificacionesImport = view.component === 'GradesImport';
   const isNotasGrid = view.component === 'NotesGrid';
+  const isNotasReports = view.component === 'NotesReports';
   const isInstitutionSettings = view.component === 'InstitutionSettings';
   const isFinanceAdmin = view.component === 'FinanceAdmin';
   const isFinanceStudent = view.component === 'FinanceStudent';
-  const hideModuleHeader = ['dashboard', 'usuarios', 'roles', 'modulos', 'auditoria', 'institucion', 'finanzas'].includes(module.slug)
+  const isActiveStudentAdmin = view.component === 'ActiveStudentAdmin';
+  const hideModuleHeader = ['dashboard', 'usuarios', 'roles', 'modulos', 'auditoria', 'institucion', 'finanzas', 'alumnos-activos'].includes(module.slug)
     || isNotasGrid
+    || isNotasReports
     || isCalificacionesImport
     || isInstitutionSettings
     || isFinanceAdmin
-    || isFinanceStudent;
+    || isFinanceStudent
+    || isActiveStudentAdmin;
 
   return (
     <section className="content-panel">
@@ -70,6 +76,8 @@ export function ModuleView({ state, metrics, dataController, branding, onBrandin
         <CalificacionesImportView dataController={dataController} permissions={view.permissions} />
       ) : isNotasGrid ? (
         <NotasGridView dataController={dataController} permissions={view.permissions} />
+      ) : isNotasReports ? (
+        <NotasReportsView dataController={dataController} permissions={view.permissions} />
       ) : isInstitutionSettings ? (
         <InstitutionSettingsView
           dataController={dataController}
@@ -81,6 +89,8 @@ export function ModuleView({ state, metrics, dataController, branding, onBrandin
         <FinanceAdminView />
       ) : isFinanceStudent ? (
         <FinanceStudentView />
+      ) : isActiveStudentAdmin ? (
+        <ActiveStudentAdminView />
       ) : (
         <div className="section-grid">
           <article className="info-card">
